@@ -1,12 +1,12 @@
 import { RouterProvider } from 'react-router-dom'
-import { Footer } from '../components/Footer'
+import { Toaster } from 'react-hot-toast'
 import { router } from '../router'
 
 export function MainLayout() {
   return (
-    <div className='flex flex-col justify-center items-center h-screen'>
+    <div className='w-screen h-screen'>
       <RouterProvider router={router} />
-      <Footer />
+      <Toaster />
     </div>
   )
 }

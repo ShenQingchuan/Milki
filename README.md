@@ -1,20 +1,10 @@
-# Railgun [![Netlify Status](https://api.netlify.com/api/v1/badges/cf0b8282-ebeb-4c61-8e27-240223caa96b/deploy-status)](https://app.netlify.com/sites/railgun/deploys)
+# Milki
 
-<div align="center">
-  <image 
-    src="https://github.com/feat-agency/vite-plugin-webfont-dl/assets/46062972/438a7ba1-9a57-42d2-8a5b-1e18a630a52e" 
-    alt="Railgun Logo"
-    width="180"
-  />
-</div>
-
-Opinionated Vite + React starter template.
-
-## Features
-
-Recommended Node.js version: `>=18`
+Focusing on Markdown editing and collaboration, based on Milkdown.
 
 ### Environment
+
+Recommended Node.js version: `>=18`
 
 - Based on [React](https://reactjs.org/) + [TypeScript](https://www.typescriptlang.org/)
 - Using [React Router](https://reactrouter.com/) for routing

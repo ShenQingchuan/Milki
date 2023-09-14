@@ -7,5 +7,5 @@ export function useRefValue<T>(value: () => T): T {
   if (!ref.current)
     ref.current = value()
 
-  return ref.current!
+  return ref.current as T
 }

@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-
-import './i18n'
-import './styles/tailwind.css'
-import './styles/global.css'
 import { Providers } from './providers'
 import { MainLayout } from './layouts/MainLayout'
+
+import './styles/tailwind.css'
+import './styles/global.css'
+import './i18n'
 
 function App() {
   return (
@@ -13,10 +13,12 @@ function App() {
   )
 }
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <Providers>
-      <App />
-    </Providers>
-  </React.StrictMode>,
-)
+ReactDOM
+  .createRoot(document.getElementById('root')!)
+  .render(
+    <React.StrictMode>
+      <Providers>
+        <App />
+      </Providers>
+    </React.StrictMode>,
+  )

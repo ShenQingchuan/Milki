@@ -8,7 +8,7 @@ i18n
   .use(initReactI18next) // Pass the i18n instance to react-i18next
   .init({
     resources,
-    fallbackLng: 'en', // Fallback language is english
+    fallbackLng: 'zh-CN', // Fallback language is Chinese
     // debug: true,    // Enable this to check missing keys report
   })
 

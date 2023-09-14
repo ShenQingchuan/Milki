@@ -1,0 +1,111 @@
+.milkdown-theme-mori {
+  width: 600px;
+  height: 600px;
+  background-color: #f5f5f5;
+  padding: 18px 32px;
+  overflow: auto;
+
+  :where(h1):not(:where([class~=not-prose] *)),
+  :where(h2):not(:where([class~=not-prose] *)),
+  :where(h3):not(:where([class~=not-prose] *)),
+  :where(h4):not(:where([class~=not-prose] *)),
+  :where(h5):not(:where([class~=not-prose] *)),
+  :where(h6):not(:where([class~=not-prose] *)) {
+    margin-bottom: 0.5rem;
+  }
+
+  :where(h1):not(:where([class~=not-prose] *)) { font-size: 2em; }
+  :where(h2):not(:where([class~=not-prose] *)) { font-size: 1.5em; }
+  :where(h3):not(:where([class~=not-prose] *)) { font-size: 1.17em; }
+  :where(h4):not(:where([class~=not-prose] *)) { font-size: 1em; }
+  :where(h5):not(:where([class~=not-prose] *)) { font-size: 0.83em; }
+  :where(h6):not(:where([class~=not-prose] *)) { font-size: 0.67em; }
+
+  :where(p):not(:where([class~=not-prose] *)) {
+    margin: 6px 0;
+  }
+
+  :where(img):not(:where([class~=not-prose] *)) {
+    margin: 12px 0;
+  }
+
+  :where(li):not(:where([class~=not-prose] *)) {
+    margin: 0.5rem 0;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 1px;
+      height: calc(100% - 30px);
+      top: 28px;
+      left: 3px;
+      background-color: #bdbdbd;
+    }
+    
+    & p {
+      margin: 0;
+      line-height: 1.5rem;
+    }
+  }
+
+  // Code block
+  pre {
+    margin: 0 0 12px;
+    padding: 12px;
+    border-radius: 4px;
+  }
+
+  .tableWrapper {
+    position: relative;
+    margin-bottom: 0.5rem;
+    overflow-x: auto;
+  }
+
+  table {
+    margin-left: 1rem !important;
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+    overflow: visible !important;
+    width: calc(100% - 1.5rem);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  th, td {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #d1d1d1;
+    
+    &:nth-child(odd) {
+      background-color: #d1d1d135;
+    }
+    &:nth-child(even) {
+      background-color: #d1d1d199;
+    }
+  }
+}
+
+.dark .milkdown-theme-mori {
+  background-color: #323232;
+
+  :where(li):not(:where([class~=not-prose] *)) {
+    &::before {
+      background-color: #757575;
+    }
+    
+    & p {
+      margin: 0;
+      line-height: 1.5rem;
+    }
+  }
+
+  th, td {
+    border-bottom: 1px solid #767676;
+    &:nth-child(odd) {
+      background-color: #acacac35;
+    }
+    &:nth-child(even) {
+      background-color: #77777799;
+    }
+  }
+}
