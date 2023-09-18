@@ -1,0 +1,33 @@
+{
+  "emmet.excludeLanguages": [
+    "markdown",
+    "typescriptreact"
+  ],
+  "editor.quickSuggestions": {
+    "other": "on",
+    "strings": "on",
+    "comments": "off"
+  },
+  "cSpell.words": [
+    "ahooks",
+    "clsx",
+    "commonmark",
+    "daisyui",
+    "Elysia",
+    "elysiajs",
+    "iconify",
+    "katex",
+    "kitajs",
+    "languagedetector",
+    "Milkdown",
+    "milki",
+    "miscs",
+    "mori",
+    "nord",
+    "prosemirror",
+    "selectednode",
+    "tailwindcss",
+    "taze",
+    "webfont"
+  ]
+}
