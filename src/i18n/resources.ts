@@ -1,9 +1,20 @@
 export const resources = {
   'en': {
     translation: {
+      'site-slogan': 'Immerse in your writing flow',
       'light-mode': 'LIGHT',
       'dark-mode': 'DARK',
       'error-page-tips': 'Sorry, an unexpected error has occurred.',
+
+      'login-page': {
+        'title': 'Login',
+        'go-register': 'Register',
+        'submit': 'OK',
+        'label-user-name': 'User Name',
+        'label-password': 'Password',
+        'placeholder-user-name': 'Please input user name',
+        'placeholder-password': 'Please input password',
+      },
 
       'milkdown': {
         'placeholder': 'Type here...',
@@ -22,9 +33,20 @@ export const resources = {
   },
   'zh-CN': {
     translation: {
+      'site-slogan': '沉浸于你的写作心流',
       'light-mode': '浅色模式',
       'dark-mode': '深色模式',
       'error-page-tips': '抱歉，发生了意料之外的错误。',
+
+      'login-page': {
+        'title': '登录',
+        'go-register': '注册',
+        'submit': '确定',
+        'label-user-name': '用户名',
+        'label-password': '密码',
+        'placeholder-user-name': '请输入用户名',
+        'placeholder-password': '请输入密码',
+      },
 
       'milkdown': {
         'placeholder': '在此输入...',

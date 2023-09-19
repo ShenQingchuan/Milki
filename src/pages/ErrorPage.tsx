@@ -1,7 +1,12 @@
 import { useRouteError } from 'react-router-dom'
+import type { FC } from 'react'
 import { useTranslator } from '../hooks/useTranslator'
 
-export function ErrorPage() {
+interface ErrorPageProps {
+  overrideMessage?: string
+}
+
+export const ErrorPage: FC<ErrorPageProps> = ({ overrideMessage }) => {
   const error = useRouteError() as any
   const t = useTranslator()
   console.error(error)
@@ -18,7 +23,7 @@ export function ErrorPage() {
         border-orange-600/60 bg-orange-700/20 text-orange-600
       '>
         <span>Error: </span>
-        <span>{error?.statusText || error?.message}</span>
+        <span>{overrideMessage ?? (error?.statusText || error?.message)}</span>
       </p>
     </div>
   )
