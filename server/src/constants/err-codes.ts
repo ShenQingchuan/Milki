@@ -1,0 +1,1 @@
+export const USER_CREATE_ERROR = 100001
