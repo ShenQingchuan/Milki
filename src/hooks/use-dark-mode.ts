@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useLocalStorageState } from 'ahooks'
-import { useMediaQuery } from './useMediaQuery'
+import { useMediaQuery } from './use-media-query'
 
 const COLOR_SCHEME_QUERY = '(prefers-color-scheme: dark)'
 

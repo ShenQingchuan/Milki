@@ -21,9 +21,15 @@ module.exports = {
    */
   darkMode: ['class', '[data-theme="business"]'],
   daisyui: {
-    themes: [
-      'bumblebee', 'business',
-    ],
     darkTheme: 'business',
+    themes: [
+      {
+        lofi: {
+          ...require('daisyui/src/theming/themes')['[data-theme=lofi]'],
+          '--rounded-box': '0',
+        },
+      },
+      'business',
+    ],
   },
 }

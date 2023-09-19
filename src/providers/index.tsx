@@ -1,6 +1,6 @@
 import type { ComponentType, FC, PropsWithChildren, ReactNode } from 'react'
 import { cloneElement } from 'react'
-import { useRefValue } from '../hooks/useRefValue'
+import { useRefValue } from '../hooks'
 import { JotaiStoreProvider } from './jotai'
 import { DarkModeProvider } from './dark-mode'
 

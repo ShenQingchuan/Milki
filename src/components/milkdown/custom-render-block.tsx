@@ -4,8 +4,7 @@ import type { FC, PropsWithChildren, RefObject } from 'react'
 import { useNodeViewContext } from '@prosemirror-adapter/react'
 import { useInstance } from '@milkdown/react'
 import type { Editor } from '@milkdown/core'
-import { useTranslator } from '../../hooks/useTranslator'
-import { useEventCallback } from '../../hooks/useEventCallback'
+import { useEventCallback, useTranslator } from '../../hooks'
 
 export type CustomRenderFn = (
   code: string,

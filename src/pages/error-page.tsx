@@ -1,6 +1,6 @@
 import { useRouteError } from 'react-router-dom'
 import type { FC } from 'react'
-import { useTranslator } from '../hooks/useTranslator'
+import { useTranslator } from '../hooks'
 
 interface ErrorPageProps {
   overrideMessage?: string

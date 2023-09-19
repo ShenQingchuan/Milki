@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react'
-import { useTranslator } from '../../hooks/useTranslator'
+import { useTranslator } from '../../hooks'
 
 const MilkdownRoot = lazy(
   () => import('./root').then(module => ({

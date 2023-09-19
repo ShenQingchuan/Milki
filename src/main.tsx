@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import { Providers } from './providers'
-import { MainLayout } from './layouts/MainLayout'
+import { MainLayout } from './layouts/main-layout'
 
 import './styles/tailwind.css'
 import './styles/global.css'
 import './i18n'
-import { useTranslator } from './hooks/useTranslator'
+import { useTranslator } from './hooks'
 
 function App() {
   const t = useTranslator()

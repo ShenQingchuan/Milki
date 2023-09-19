@@ -3,10 +3,26 @@ import { t } from 'elysia'
 import { UserModel } from '../schemas'
 import { MilkiError, MilkiSuccess } from '../utils/response'
 import { ErrCodes } from '../constants'
+import {
+  SIGN_UP_PASSWORD_MAX_LEN,
+  SIGN_UP_PASSWORD_MIN_LEN,
+  SIGN_UP_PASSWORD_PATTERN,
+  SIGN_UP_USERNAME_MAX_LEN,
+  SIGN_UP_USERNAME_MIN_LEN,
+  SIGN_UP_USERNAME_PATTERN,
+} from '../../../shared/constants'
 
 const signUpReqBodySchema = t.Object({
-  username: t.String(),
-  password: t.String(),
+  username: t.String({
+    minLength: SIGN_UP_USERNAME_MIN_LEN,
+    maxLength: SIGN_UP_USERNAME_MAX_LEN,
+    pattern: SIGN_UP_USERNAME_PATTERN,
+  }),
+  password: t.String({
+    minLength: SIGN_UP_PASSWORD_MIN_LEN,
+    maxLength: SIGN_UP_PASSWORD_MAX_LEN,
+    pattern: SIGN_UP_PASSWORD_PATTERN,
+  }),
 })
 
 function userSignUpService(app: Elysia) {

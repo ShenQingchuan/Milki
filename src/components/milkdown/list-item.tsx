@@ -1,7 +1,7 @@
 import { useNodeViewContext } from '@prosemirror-adapter/react'
 import clsx from 'clsx'
 import type { FC } from 'react'
-import { useEventCallback } from '../../hooks/useEventCallback'
+import { useEventCallback } from '../../hooks'
 
 export const ListItem: FC = () => {
   const { contentRef, node, setAttrs, selected } = useNodeViewContext()

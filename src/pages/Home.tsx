@@ -1,6 +1,6 @@
 import { MilkiAvatar } from '../components/miscs/avatar'
 
-export function Home() {
+export function HomePage() {
   return (
     <div className='flex flex-col h-full'>
       <div className='

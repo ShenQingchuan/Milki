@@ -3,9 +3,8 @@ import type { FC, MouseEventHandler } from 'react'
 import clsx from 'clsx'
 import { useNodeViewContext } from '@prosemirror-adapter/react'
 import { toast } from 'react-hot-toast'
-import { useTranslator } from '../../hooks/useTranslator'
+import { useEventCallback, useTranslator } from '../../hooks'
 import { MARKDOWN_CODE_BLOCK_LANGS } from '../../utils/constants'
-import { useEventCallback } from '../../hooks/useEventCallback'
 
 export const CodeBlock: FC = () => {
   const { contentRef, selected, node, setAttrs } = useNodeViewContext()

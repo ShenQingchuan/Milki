@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import { Login } from '../../pages/Login'
+import { Navigate } from 'react-router-dom'
 
 interface AuthGuardedRouteProps {
   render: JSX.Element
@@ -13,7 +13,7 @@ const AuthGuardedRoute: FC<AuthGuardedRouteProps> = ({
   return (
     isAuthorized
       ? renderElement
-      : <Login />
+      : <Navigate to='/login' replace />
   )
 }
 

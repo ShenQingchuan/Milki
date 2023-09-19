@@ -11,9 +11,7 @@ import clsx from 'clsx'
 import type { MilkdownRef } from '../../utils/types'
 import { compose } from '../../providers'
 import { ProseStateProvider } from '../../providers/prose'
-import { useMilkdownEditor } from '../../hooks/useMilkdownEditor'
-import { useEventCallback } from '../../hooks/useEventCallback'
-import { useTranslator } from '../../hooks/useTranslator'
+import { useEventCallback, useMilkdownEditor, useTranslator } from '../../hooks'
 
 type InferRefObject<T> = T extends RefObject<infer R> ? R : never
 
