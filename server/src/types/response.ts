@@ -1,7 +1,12 @@
-export interface MilkiResponse {
+export interface MilkiResponse<
+  T extends
+  | Record<string, any>
+  | Array<any>
+  | null = Record<string, any>,
+> {
   status: 'success' | 'error'
   errCode: number
-  data: Record<string, any> | Array<any> | null
+  data: T
 
   errMsg?: string
 }

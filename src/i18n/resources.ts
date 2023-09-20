@@ -5,6 +5,7 @@ export const resources = {
       'light-mode': 'LIGHT',
       'dark-mode': 'DARK',
       'error-page-tips': 'Sorry, an unexpected error has occurred.',
+      'already-authorized': 'You have already logged in.',
 
       'sign-page': {
         'title-login': 'Login',
@@ -18,11 +19,13 @@ export const resources = {
         'placeholder-user-name': 'Please input user name',
         'placeholder-password': 'Please input password',
         'sign-up-error-label': 'Sign up error',
+        'login-error-label': 'Login error',
         'sign-up-success': 'You have successfully signed up!',
         'login-user-name-format-err-msg': '3-24 characters length, must contain letters, numbers and underscores available',
         'login-password-format-err-msg': '8-24 characters length, contain at least one letter and one number',
-        'sign-up-dup-username': 'User name already exists',
-        'unknown-err-msg': 'Unknown error',
+        'sign-up-duplicate-username': 'User name already exists',
+        'create-user-err-msg': 'Failed to create user',
+        'login-success': 'Login success!',
       },
 
       'milkdown': {
@@ -46,6 +49,7 @@ export const resources = {
       'light-mode': '浅色模式',
       'dark-mode': '深色模式',
       'error-page-tips': '抱歉，发生了意料之外的错误。',
+      'already-authorized': '当前已经登录！',
 
       'sign-page': {
         'title-login': '登录',
@@ -59,11 +63,13 @@ export const resources = {
         'placeholder-user-name': '请输入用户名',
         'placeholder-password': '请输入密码',
         'sign-up-error-label': '注册失败',
+        'login-error-label': '登录失败',
         'sign-up-success': '注册成功！',
         'login-user-name-format-err-msg': '长度 3-24 个字符，必须包含字母，可以包含数字和下划线',
         'login-password-format-err-msg': '长度 8-24 个字符，至少包含至少 1 个字母和 1 个数字',
-        'sign-up-dup-username': '用户名已存在',
-        'unknown-err-msg': '未知错误',
+        'sign-up-duplicate-username': '用户名已存在',
+        'create-user-err-msg': '创建用户失败',
+        'login-success': '登录成功！',
       },
 
       'milkdown': {

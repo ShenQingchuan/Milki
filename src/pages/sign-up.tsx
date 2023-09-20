@@ -1,4 +1,5 @@
 import { type FC, useState } from 'react'
+import type { Response } from 'redaxios'
 import http from 'redaxios'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
@@ -8,23 +9,15 @@ import clsx from 'clsx'
 import { useEventCallback, useTranslator } from '../hooks'
 import type { MilkiResponse } from '../../server/src/types'
 import { PASSWORD_FORM_FIELD_VALIDATION, USERNAME_FORM_FIELD_VALIDATION } from '../utils/constants'
-
-interface SignUpFormInputs {
-  username: string
-  password: string
-}
+import type { SignFormInputs } from '../utils/types'
 
 export const SignUpPage: FC = () => {
   const t = useTranslator()
   const navigate = useNavigate()
   const [isLoading, setLoading] = useState(false)
-  const { register, handleSubmit, formState: { errors } } = useForm<SignUpFormInputs>()
+  const { register, handleSubmit, formState: { errors } } = useForm<SignFormInputs>()
 
-  const onRequestError = useEventCallback((errMsg: string) => {
-    if (errMsg.includes('dup key: { name:')) {
-      errMsg = t('sign-page.sign-up-dup-username')
-    }
-
+  const showErrToast = useEventCallback((errMsg: string) => {
     toast.error(`${
       t('sign-page.sign-up-error-label')
     } - ${
@@ -34,28 +27,23 @@ export const SignUpPage: FC = () => {
     }`)
   }, [])
 
-  const onSubmit: SubmitHandler<SignUpFormInputs> = async (data) => {
+  const onSubmitSignUp: SubmitHandler<SignFormInputs> = async (data) => {
     setLoading(true)
 
     try {
-      const resp = await http.post<MilkiResponse>(
+      await http.post<MilkiResponse>(
         '/api/v1/user/sign-up',
         {
           username: data.username.toLocaleLowerCase(),
           password: data.password,
         },
       )
-      if (resp.data.status === 'error') {
-        return onRequestError(
-          resp.data.errMsg ?? t('sign-page.unknown-err-msg'),
-        )
-      }
       toast.success(t('sign-page.sign-up-success'))
       navigate(`/login?user=${encodeURIComponent(data.username)}`)
     }
     catch (err) {
-      const errMsg = String(err)
-      onRequestError(errMsg)
+      const tipKey = (err as Response<MilkiResponse>).data.errMsg
+      showErrToast(t(`sign-page.${tipKey}`))
     }
     finally {
       setLoading(false)
@@ -85,6 +73,7 @@ export const SignUpPage: FC = () => {
               <span className="label-text">{t('sign-page.label-user-name')}</span>
               <span className="label-text-alt text-secondary">{t('sign-page.case-insensitive-tip')}</span>
             </label>
+
             <input
               type="text"
               placeholder={t('sign-page.placeholder-user-name')}
@@ -133,7 +122,7 @@ export const SignUpPage: FC = () => {
             <button
               type='submit'
               className="btn btn-sm btn-primary"
-              onClick={handleSubmit(onSubmit)}
+              onClick={handleSubmit(onSubmitSignUp)}
             >
               {
                 isLoading

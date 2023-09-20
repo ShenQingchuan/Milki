@@ -1,1 +1,4 @@
 export const USER_CREATE_ERROR = 100001
+export const USER_EXISTS = 100002
+export const LOGIN_USER_NOT_FOUND = 100003
+export const LOGIN_PASSWORD_INCORRECT = 100004

@@ -1,7 +1,16 @@
-import { type FC } from 'react'
+import { type FC, useState } from 'react'
+import http from 'redaxios'
 import { useNavigate } from 'react-router-dom'
+import type { SubmitHandler } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import type { Response } from 'redaxios'
+import type { MilkiResponse } from '../../server/src/types'
 import { useEventCallback, useTranslator } from '../hooks'
 import { useQuery } from '../hooks/use-query'
+import type { SignFormInputs } from '../utils/types'
+import { PASSWORD_FORM_FIELD_VALIDATION, USERNAME_FORM_FIELD_VALIDATION } from '../utils/constants'
+import { useAuthorized } from '../hooks/use-authorized'
 
 export const LoginPage: FC = () => {
   const t = useTranslator()
@@ -9,10 +18,43 @@ export const LoginPage: FC = () => {
   const routeQuery = useQuery<{
     user?: string
   }>()
+  const [isLoading, setLoading] = useState(false)
+  const { register, handleSubmit, formState: { errors } } = useForm<SignFormInputs>()
+  const { setAuthToken } = useAuthorized()
 
-  const handleSubmitLogin = useEventCallback(() => {
-    // Todo ...
+  const showErrToast = useEventCallback((errMsg: string) => {
+    toast.error(`${
+      t('sign-page.login-error-label')
+    } - ${
+      errMsg.length > 24
+        ? `${errMsg.slice(0, 24)}...`
+        : errMsg
+    }`)
   }, [])
+
+  const onSubmitLogin: SubmitHandler<SignFormInputs> = async (data) => {
+    setLoading(true)
+
+    try {
+      const resp = await http.post<MilkiResponse<{ token: string }>>(
+        '/api/v1/user/login',
+        {
+          username: data.username.toLocaleLowerCase(),
+          password: data.password,
+        },
+      )
+      toast.success(t('sign-page.login-success'))
+      setAuthToken(resp.data.data.token)
+      navigate('/')
+    }
+    catch (err) {
+      const tipKey = (err as Response<MilkiResponse>).data.errMsg
+      showErrToast(t(`sign-page.${tipKey}`))
+    }
+    finally {
+      setLoading(false)
+    }
+  }
 
   const handleGoSignUp = useEventCallback(() => {
     navigate('/sign-up')
@@ -24,7 +66,7 @@ export const LoginPage: FC = () => {
       flex flex-col items-center justify-center
     '>
       <div className="card w-96 bg-base-100/50 dark:bg-neutral shadow-xl">
-        <div className="card-body items-center text-center">
+        <form className="card-body items-center text-center">
           <div className='flex items-center'>
             <img className='w-6' src='/milki-icon.svg' alt='Milki Logo' />
             <div className='ml-2 text-lg font-bold font-mono'>MILKI</div>
@@ -35,13 +77,25 @@ export const LoginPage: FC = () => {
           <div className="form-control w-full max-w-xs mt-4">
             <label className="label">
               <span className="label-text">{t('sign-page.label-user-name')}</span>
+              <span className="label-text-alt text-secondary">{t('sign-page.case-insensitive-tip')}</span>
             </label>
+
             <input
               type="text"
               defaultValue={routeQuery.user ?? ''}
               placeholder={t('sign-page.placeholder-user-name')}
               className="input input-sm input-bordered w-full max-w-xs"
+              {...register('username', USERNAME_FORM_FIELD_VALIDATION)}
             />
+            {
+              errors.username && (
+                <label className="label text-left">
+                  <span className="label-text-alt text-error">{
+                    t('sign-page.login-user-name-format-err-msg')
+                  }</span>
+                </label>
+              )
+            }
           </div>
 
           <div className="form-control w-full max-w-xs mt-2 mb-10">
@@ -49,18 +103,33 @@ export const LoginPage: FC = () => {
               <span className="label-text">{t('sign-page.label-password')}</span>
             </label>
             <input
-              type="text"
+              type="password"
               placeholder={t('sign-page.placeholder-password')}
               className="input input-sm input-bordered w-full max-w-xs"
+              {...register('password', PASSWORD_FORM_FIELD_VALIDATION)}
             />
+            {
+              errors.password && (
+                <label className="label text-left">
+                  <span className="label-text-alt text-error">{
+                    t('sign-page.login-password-format-err-msg')
+                  }</span>
+                </label>
+              )
+            }
           </div>
 
           <div className="card-actions justify-end">
             <button
+              type='submit'
               className="btn btn-sm btn-primary"
-              onClick={handleSubmitLogin}
+              onClick={handleSubmit(onSubmitLogin)}
             >
-              {t('sign-page.submit')}
+              {
+                isLoading
+                  ? <span className="loading loading-bars loading-md" />
+                  : t('sign-page.submit')
+              }
             </button>
             <button
               className="btn btn-sm btn-ghost"
@@ -69,7 +138,7 @@ export const LoginPage: FC = () => {
                 {t('sign-page.go-sign-up')}
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   )

@@ -1,3 +1,4 @@
+import type { Context } from 'elysia'
 import type { MilkiResponse } from '../types'
 
 export function MilkiSuccess(
@@ -22,4 +23,13 @@ export function MilkiError(
     errMsg,
     data: null,
   }
+}
+
+export function MilkiClientError(
+  set: Context['set'],
+) {
+  set.status = 400
+  return (
+    ...args: Parameters<typeof MilkiError>
+  ) => MilkiError(...args)
 }

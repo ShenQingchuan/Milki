@@ -16,7 +16,9 @@
   },
   "dependencies": {
     "@egoist/tailwindcss-icons": "^1.1.0",
+    "@elysiajs/cookie": "^0.6.1",
     "@elysiajs/html": "^0.6.6",
+    "@elysiajs/jwt": "^0.6.4",
     "@kitajs/html": "^2.2.2",
     "@kitajs/ts-html-plugin": "^1.0.1",
     "@milkdown/core": "^7.3.0",
