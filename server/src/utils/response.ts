@@ -16,19 +16,21 @@ export function MilkiSuccess(
 export function MilkiError(
   errCode: number,
   errMsg: string,
+  data: MilkiResponse['data'] = null,
 ): MilkiResponse {
   return {
     status: 'error',
     errCode,
     errMsg,
-    data: null,
+    data,
   }
 }
 
 export function MilkiClientError(
   set: Context['set'],
+  status = 400,
 ) {
-  set.status = 400
+  set.status = status
   return (
     ...args: Parameters<typeof MilkiError>
   ) => MilkiError(...args)

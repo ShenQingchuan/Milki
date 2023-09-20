@@ -11,6 +11,13 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  avatarUrl: {
+    type: String,
+    required: false,
+    default: '',
+  },
+}, {
+  timestamps: true,
 })
 
 export type IUserSchema = InferSchemaType<typeof userSchema>

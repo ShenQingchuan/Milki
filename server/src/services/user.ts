@@ -1,7 +1,5 @@
 import type { Elysia } from 'elysia'
 import { t } from 'elysia'
-import { cookie } from '@elysiajs/cookie'
-import { jwt } from '@elysiajs/jwt'
 import { UserModel } from '../schemas'
 import { MilkiClientError, MilkiSuccess } from '../utils/response'
 import { ErrCodes } from '../constants'
@@ -13,6 +11,8 @@ import {
   SIGN_UP_USERNAME_MIN_LEN,
   SIGN_UP_USERNAME_PATTERN,
 } from '../../../shared/constants'
+import { cookiePlugin, jwtPlugin } from '../configs/common-plugins'
+import { authenticationMiddleware } from '../middlewares/authentication'
 
 const signReqBodySchema = t.Object({
   username: t.String({
@@ -67,14 +67,8 @@ function userSignUpService(app: Elysia) {
 
 function userLoginService(app: Elysia) {
   return app
-    .use(cookie())
-    .use(
-      jwt({
-        name: 'jwt',
-        secret: Bun.env.MILKI_SECRET_KEY ?? 'milki-secret-key',
-        exp: '1d',
-      }),
-    )
+    .use(cookiePlugin)
+    .use(jwtPlugin)
     .post(
       '/login',
       async ({ set, body, jwt, setCookie }) => {
@@ -110,11 +104,32 @@ function userLoginService(app: Elysia) {
     )
 }
 
+function userInfoService(app: Elysia) {
+  return app
+    .use(authenticationMiddleware)
+    .get('/info', async ({ set, user }) => {
+      if (!user) {
+        return MilkiClientError(set)(
+          ErrCodes.NOT_AUTHENTICATED,
+          'not-authenticated',
+        )
+      }
+
+      return MilkiSuccess({
+        user: {
+          name: user.name,
+          avatarUrl: user.avatarUrl,
+        },
+      })
+    })
+}
+
 export function userServices(app: Elysia) {
   return app.group(
     '/user',
     app => app
       .use(userSignUpService)
-      .use(userLoginService),
+      .use(userLoginService)
+      .use(userInfoService),
   )
 }
