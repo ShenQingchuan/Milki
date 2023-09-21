@@ -8,10 +8,10 @@ import {
 } from '../components/miscs/auth-guarded-route'
 import { SignUpPage } from '../pages/sign-up'
 import { LoginPage } from '../pages/login'
-import { useDarkMode } from '../hooks'
+import { useIsDark } from '../providers/dark-mode'
 
 export function MainLayout() {
-  const { isDarkMode } = useDarkMode()
+  const isDarkMode = useIsDark()
 
   return (
     <div className='w-screen h-screen'>

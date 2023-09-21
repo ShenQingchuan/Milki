@@ -49,7 +49,7 @@ function ThemeObserver() {
       document.documentElement.classList.toggle('dark', true)
     }
     else {
-      document.documentElement.dataset.theme = 'lemonade'
+      document.documentElement.dataset.theme = 'lofi'
       document.documentElement.classList.toggle('dark', false)
     }
   }, [isDarkMode])

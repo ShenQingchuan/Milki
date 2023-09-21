@@ -29,6 +29,19 @@ export const resources = {
         'login-success': 'Login success!',
       },
 
+      'home-page': {
+        'side-bar': {
+          'create-button': 'New',
+          'recently-viewed': 'Recently viewed',
+          'shared-with-me': 'Shared with me',
+          'collections': 'collections',
+          'my-desktop': 'My desktop',
+          'team-spaces': 'Team spaces',
+          'label-quick-access': 'Quick access',
+          'recycle-bin': 'Recycle bin',
+        },
+      },
+
       'milkdown': {
         'placeholder': 'Type here...',
         'editor-loading': 'Loading editor...',
@@ -72,6 +85,19 @@ export const resources = {
         'sign-up-duplicate-username': '用户名已存在',
         'create-user-err-msg': '创建用户失败',
         'login-success': '登录成功！',
+      },
+
+      'home-page': {
+        'side-bar': {
+          'create-button': '创建',
+          'recently-viewed': '最近文件',
+          'shared-with-me': '与我共享',
+          'collections': '我的收藏',
+          'my-desktop': '我的桌面',
+          'team-spaces': '团队空间',
+          'label-quick-access': '快速访问',
+          'recycle-bin': '回收站',
+        },
       },
 
       'milkdown': {

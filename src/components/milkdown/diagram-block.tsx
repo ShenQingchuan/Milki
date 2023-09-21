@@ -1,13 +1,13 @@
 import { type FC, useCallback, useRef } from 'react'
 import mermaid from 'mermaid'
 import { useNodeViewContext } from '@prosemirror-adapter/react'
-import { useDarkMode } from '../../hooks'
+import { useIsDark } from '../../providers/dark-mode'
 import { CustomRenderBlock, type CustomRenderFn } from './custom-render-block'
 
 export const DiagramBlock: FC = () => {
   const { node } = useNodeViewContext()
   const id = node.attrs.identity
-  const { isDarkMode } = useDarkMode()
+  const isDarkMode = useIsDark()
   const rendering = useRef(false)
 
   const mermaidRender: CustomRenderFn = useCallback(async (
