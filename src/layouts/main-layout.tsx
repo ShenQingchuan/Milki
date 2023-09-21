@@ -8,7 +8,7 @@ import {
 } from '../components/miscs/auth-guarded-route'
 import { SignUpPage } from '../pages/sign-up'
 import { LoginPage } from '../pages/login'
-import { useIsDark } from '../providers/dark-mode'
+import { useIsDark } from '../hooks'
 
 export function MainLayout() {
   const isDarkMode = useIsDark()

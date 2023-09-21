@@ -1,3 +1,5 @@
+export * from './color-theme'
+
 export * from './use-event-callback'
 export * from './use-media-query'
 export * from './use-milkdown-editor'

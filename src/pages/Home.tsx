@@ -69,6 +69,9 @@ export const HomePage: FC = () => {
           <div className="divider mt-auto" />
           <SideBarItems items={sideBarBottomItems} />
         </div>
+
+        {/* Workbench view */}
+
       </div>
     </div>
   )

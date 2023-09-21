@@ -1,8 +1,7 @@
 import type { ComponentType, FC, PropsWithChildren, ReactNode } from 'react'
 import { cloneElement } from 'react'
 import { useRefValue } from '../hooks'
-import { JotaiStoreProvider } from './jotai'
-import { DarkModeProvider } from './dark-mode'
+import { DarkModeContexts } from './dark-mode'
 
 export const ProviderComposer: FC<{
   contexts: JSX.Element[]
@@ -12,17 +11,14 @@ export const ProviderComposer: FC<{
   }, children)
 }
 
-export function Providers(props: PropsWithChildren) {
+export const Providers: FC<PropsWithChildren> = ({ children }) => {
+  const contexts = useRefValue(() => [
+    ...DarkModeContexts,
+  ])
+
   return (
-    <ProviderComposer
-      contexts={
-        useRefValue(() => [
-          <JotaiStoreProvider key={'JotaiStoreProvider'} />,
-          <DarkModeProvider key={'DarkModeProvider'} />,
-        ])
-      }
-    >
-      {props.children}
+    <ProviderComposer contexts={contexts}>
+      {children}
     </ProviderComposer>
   )
 }

@@ -8,6 +8,8 @@ import {
   SIGN_UP_USERNAME_PATTERN,
 } from '../../shared/constants'
 
+export function NOOP() {}
+
 export const MARKDOWN_CODE_BLOCK_LANGS = [
   'javascript',
   'typescript',
