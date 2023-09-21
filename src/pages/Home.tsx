@@ -1,19 +1,7 @@
-import { MilkiAvatar } from '../components/miscs/avatar'
-import { useUserInfo } from '../hooks/use-user-info'
+import { MilkiAvatar } from '../components/home-header/avatar'
+import { HeaderNotification } from '../components/home-header/header-notification'
 
 export function HomePage() {
-  const { user, isLoading } = useUserInfo()
-
-  if (isLoading) {
-    return (
-      <div className="hero min-h-screen bg-base-200">
-        <div className="hero-content text-center">
-          <span className="loading loading-ring loading-lg" />
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className='flex flex-col h-full'>
       <div className='
@@ -27,7 +15,8 @@ export function HomePage() {
           MILKI
         </a>
 
-        <MilkiAvatar user={user} />
+        <HeaderNotification />
+        <MilkiAvatar />
       </div>
     </div>
   )
