@@ -68,8 +68,10 @@ export const LoginPage: FC = () => {
       <div className="card w-96 bg-base-100/50 dark:bg-neutral shadow-xl">
         <form className="card-body items-center text-center">
           <div className='flex items-center'>
-            <img className='w-6' src='/milki-icon.svg' alt='Milki Logo' />
-            <div className='ml-2 text-lg font-bold font-mono'>MILKI</div>
+            <img className='w-6' src='/logo-icon.svg' alt='Milki Logo' />
+            <div className='ml-2 text-lg font-bold font-mono'>
+              {import.meta.env.VITE_APP_NAME}
+            </div>
             <div className="divider divider-horizontal" />
             <h2 className="card-title">{t('sign-page.title-login')}</h2>
           </div>

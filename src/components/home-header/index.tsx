@@ -13,7 +13,7 @@ export const HomeHeader: FC = () => {
         className='ml-2 font-bold font-mono text-xl select-none outline-none'
         href="/"
       >
-        MILKI
+        {import.meta.env.VITE_APP_NAME}
       </a>
 
       <div className='ml-auto flex items-center'>

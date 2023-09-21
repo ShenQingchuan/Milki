@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { StrictMode, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import { Providers } from './providers'
 import { MainLayout } from './layouts/main-layout'
@@ -12,7 +12,7 @@ function App() {
   const t = useTranslator()
 
   useEffect(() => {
-    document.title = `MILKI - ${t('site-slogan')}`
+    document.title = `${import.meta.env.VITE_APP_NAME} - ${t('site-slogan')}`
   }, [])
 
   return (
@@ -23,9 +23,9 @@ function App() {
 ReactDOM
   .createRoot(document.getElementById('root')!)
   .render(
-    <React.StrictMode>
+    <StrictMode>
       <Providers>
         <App />
       </Providers>
-    </React.StrictMode>,
+    </StrictMode>,
   )
