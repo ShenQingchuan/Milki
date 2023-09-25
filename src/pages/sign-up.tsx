@@ -7,7 +7,7 @@ import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import clsx from 'clsx'
 import { useEventCallback, useTranslator } from '../hooks'
-import type { MilkiResponse } from '../../server/src/types'
+import type { MilkiResponse } from '../../shared/types'
 import { PASSWORD_FORM_FIELD_VALIDATION, USERNAME_FORM_FIELD_VALIDATION } from '../utils/constants'
 import type { SignFormInputs } from '../utils/types'
 
@@ -50,7 +50,7 @@ export const SignUpPage: FC = () => {
     }
   }
 
-  const handleGoSignUp = useEventCallback(() => {
+  const handleGoLogin = useEventCallback(() => {
     navigate('/login')
   }, [])
 
@@ -134,7 +134,7 @@ export const SignUpPage: FC = () => {
             </button>
             <button
               className="btn btn-sm btn-ghost"
-              onClick={handleGoSignUp}
+              onClick={handleGoLogin}
             >
               {t('sign-page.go-login')}
             </button>

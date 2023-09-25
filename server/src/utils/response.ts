@@ -1,5 +1,5 @@
 import type { Context } from 'elysia'
-import type { MilkiResponse } from '../types'
+import type { MilkiResponse } from '../../../shared/types'
 
 export function MilkiSuccess(
   data:

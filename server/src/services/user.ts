@@ -2,8 +2,8 @@ import type { Elysia } from 'elysia'
 import { t } from 'elysia'
 import { UserModel } from '../schemas'
 import { MilkiClientError, MilkiSuccess } from '../utils/response'
-import { ErrCodes } from '../constants'
 import {
+  ErrCodes,
   SIGN_UP_PASSWORD_MAX_LEN,
   SIGN_UP_PASSWORD_MIN_LEN,
   SIGN_UP_PASSWORD_PATTERN,

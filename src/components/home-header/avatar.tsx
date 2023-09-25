@@ -1,4 +1,5 @@
 import type { FC } from 'react'
+import { Navigate } from 'react-router-dom'
 import { useUserInfo } from '../../hooks/use-user-info'
 
 interface MilkiAvatarProps {
@@ -6,7 +7,7 @@ interface MilkiAvatarProps {
 }
 
 export const MilkiAvatar: FC<MilkiAvatarProps> = () => {
-  const { user, isLoading } = useUserInfo()
+  const { user, isLoading, isError } = useUserInfo()
 
   if (isLoading) {
     return (
@@ -16,8 +17,8 @@ export const MilkiAvatar: FC<MilkiAvatarProps> = () => {
     )
   }
 
-  if (!user) {
-    return null
+  if (!user || isError) {
+    return <Navigate to='/login?action=redirect' />
   }
 
   const { avatarUrl, name } = user

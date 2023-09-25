@@ -1,3 +1,5 @@
+export * as ErrCodes from './err-codes'
+
 export const SIGN_UP_USERNAME_MIN_LEN = 3
 export const SIGN_UP_USERNAME_MAX_LEN = 24
 export const SIGN_UP_PASSWORD_MIN_LEN = 8

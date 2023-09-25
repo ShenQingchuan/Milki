@@ -1,11 +1,11 @@
-import { type FC, useState } from 'react'
+import { type FC, useEffect, useState } from 'react'
 import http from 'redaxios'
 import { useNavigate } from 'react-router-dom'
 import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import type { Response } from 'redaxios'
-import type { MilkiResponse } from '../../server/src/types'
+import type { MilkiResponse } from '../../shared/types'
 import { useEventCallback, useTranslator } from '../hooks'
 import { useQuery } from '../hooks/use-query'
 import type { SignFormInputs } from '../utils/types'
@@ -17,6 +17,7 @@ export const LoginPage: FC = () => {
   const navigate = useNavigate()
   const routeQuery = useQuery<{
     user?: string
+    action?: string
   }>()
   const [isLoading, setLoading] = useState(false)
   const { register, handleSubmit, formState: { errors } } = useForm<SignFormInputs>()
@@ -58,6 +59,15 @@ export const LoginPage: FC = () => {
 
   const handleGoSignUp = useEventCallback(() => {
     navigate('/sign-up')
+  }, [])
+
+  useEffect(() => {
+    if (routeQuery.action === 'redirect') {
+      toast(
+        t('sign-page.login-redirect-tip'),
+        { id: 'login-redirect-tip', icon: '🤔' },
+      )
+    }
   }, [])
 
   return (

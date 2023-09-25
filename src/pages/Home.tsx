@@ -2,26 +2,12 @@ import clsx from 'clsx'
 import type { FC } from 'react'
 import { HomeHeader } from '../components/home-header'
 import { useTranslator } from '../hooks'
-
-interface SideBarItem {
-  icon: string
-  label: string
-}
-
-const sideBarRelateToMeItems: SideBarItem[] = [
-  { icon: 'i-carbon-recently-viewed', label: 'home-page.side-bar.recently-viewed' },
-  { icon: 'i-carbon-share-knowledge', label: 'home-page.side-bar.shared-with-me' },
-  { icon: 'i-ep-collection-tag', label: 'home-page.side-bar.collections' },
-]
-
-const sideBarSpaceItems: SideBarItem[] = [
-  { icon: 'i-carbon-home', label: 'home-page.side-bar.my-desktop' },
-  { icon: 'i-iconoir-group', label: 'home-page.side-bar.team-spaces' },
-]
-
-const sideBarBottomItems: SideBarItem[] = [
-  { icon: 'i-carbon-trash-can', label: 'home-page.side-bar.recycle-bin' },
-]
+import type { SideBarItem } from '../utils/types'
+import {
+  SIDEBAR_BOTTOM_ITEMS,
+  SIDE_BAR_RELATE_TO_ME_ITEMS,
+  SIDE_BAR_WORKSPACE_ITEMS,
+} from '../utils/constants'
 
 const SideBarItems: FC<{
   items: SideBarItem[]
@@ -58,16 +44,16 @@ export const HomePage: FC = () => {
             {t('home-page.side-bar.create-button')}
           </button>
           <div className="divider" />
-          <SideBarItems items={sideBarRelateToMeItems} />
+          <SideBarItems items={SIDE_BAR_RELATE_TO_ME_ITEMS} />
           <div className="divider" />
-          <SideBarItems items={sideBarSpaceItems} />
+          <SideBarItems items={SIDE_BAR_WORKSPACE_ITEMS} />
           <div className="divider" />
           <div className='text-sm ml-2 text-secondary select-none'>
             {t('home-page.side-bar.label-quick-access')}
           </div>
           {/* Todo: ... */}
           <div className="divider mt-auto" />
-          <SideBarItems items={sideBarBottomItems} />
+          <SideBarItems items={SIDEBAR_BOTTOM_ITEMS} />
         </div>
 
         {/* Workbench view */}

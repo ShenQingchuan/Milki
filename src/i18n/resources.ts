@@ -27,6 +27,7 @@ export const resources = {
         'sign-up-duplicate-username': 'User name already exists',
         'create-user-err-msg': 'Failed to create user',
         'login-success': 'Login success!',
+        'login-redirect-tip': 'Please login first!',
       },
 
       'home-page': {
@@ -85,6 +86,7 @@ export const resources = {
         'sign-up-duplicate-username': '用户名已存在',
         'create-user-err-msg': '创建用户失败',
         'login-success': '登录成功！',
+        'login-redirect-tip': '请先登录！',
       },
 
       'home-page': {
