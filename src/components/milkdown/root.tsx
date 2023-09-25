@@ -7,11 +7,10 @@ import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
 import { editorViewCtx, parserCtx } from '@milkdown/core'
 import { Slice } from '@milkdown/prose/model'
 import { decompressFromBase64 as decode } from 'lz-string'
-import clsx from 'clsx'
 import type { MilkdownRef } from '../../utils/types'
 import { compose } from '../../providers'
 import { ProseStateProvider } from '../../providers/prose'
-import { useEventCallback, useMilkdownEditor, useTranslator } from '../../hooks'
+import { useEventCallback, useMilkdownEditor } from '../../hooks'
 
 type InferRefObject<T> = T extends RefObject<infer R> ? R : never
 
@@ -64,23 +63,10 @@ function MilkdownSummary({
 }
 
 export const MilkdownRoot: React.FC = () => {
-  const t = useTranslator()
-
   const milkdownRef = useRef<MilkdownRef>(null)
   const monacoRef = useRef<editor.IStandaloneCodeEditor | null>(null)
-  const milkdownTabs = useRef({
-    wysiwyg: t('milkdown.editor-tab-name.wysiwyg'),
-    raw: t('milkdown.editor-tab-name.raw-code'),
-  } as const)
 
   const [markdownContent, setMarkdownContent] = useState('')
-  const [milkdownTab, setMilkdownTab] = useState<keyof InferRefObject<typeof milkdownTabs>>('wysiwyg')
-
-  const handleClickTab = useEventCallback((tabKey) => {
-    return useEventCallback(() => {
-      setMilkdownTab(tabKey)
-    }, [])
-  }, [])
 
   const handleMonacoDidMount = useEventCallback((
     editor: editor.IStandaloneCodeEditor,
@@ -103,37 +89,17 @@ export const MilkdownRoot: React.FC = () => {
 
   return (
     <MilkdownSummaryProvider>
-      <div className='flex flex-col'>
-        <div className="tabs">
-          {
-            Object.entries(milkdownTabs.current).map(([key, value]) => (
-              <a
-                key={key}
-                className={`tab tab-bordered ${milkdownTab === key ? 'tab-active' : ''}`}
-                onClick={handleClickTab(key as keyof InferRefObject<typeof milkdownTabs>)}
-              >
-                {value}
-              </a>
-            ))
-          }
-        </div>
-        <div className={clsx(
-          milkdownTab === 'wysiwyg' ? 'flex-1' : 'hidden',
-        )}>
+      <div className='flex items-center'>
+        <div className='flex-1'>
           <MilkdownSummary
             defaultContent={''}
             milkdownRef={milkdownRef}
             onMarkdownChange={onMarkdownChange}
           />
         </div>
-        <div className={clsx(
-          milkdownTab === 'raw' ? 'flex-1' : 'hidden',
-        )}>
+        <div className='flex-1'>
           <MonacoEditor
-            className='
-              min-w-[600px]
-              min-h-[600px]
-            '
+            className='w-full h-[calc(100vh-64px)]'
             height="100%"
             language="markdown"
             theme="vs-dark"

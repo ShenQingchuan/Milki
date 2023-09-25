@@ -9,6 +9,7 @@ import {
 import { SignUpPage } from '../pages/sign-up'
 import { LoginPage } from '../pages/login'
 import { useIsDark } from '../hooks'
+import { EditorPage } from '../pages/editor'
 
 export function MainLayout() {
   const isDarkMode = useIsDark()
@@ -20,6 +21,7 @@ export function MainLayout() {
           <Route path='/' errorElement={<ErrorPage />} element={<AuthGuardedRoute render={<HomePage />} />} />
           <Route path='/login' errorElement={<ErrorPage />} element={<ExcludeAuthGuardedRoute render={<LoginPage />} />} />
           <Route path='/sign-up' errorElement={<ErrorPage />} element={<ExcludeAuthGuardedRoute render={<SignUpPage />} />} />
+          <Route path='/edit/:id' errorElement={<ErrorPage />} element={<AuthGuardedRoute render={<EditorPage />} />} />
         </Routes>
       </BrowserRouter>
       <Toaster toastOptions={{

@@ -43,6 +43,14 @@ export const resources = {
         },
       },
 
+      'edit-header': {
+        'go-back': 'Back',
+        'title-placeholder': 'Please input title',
+        'auto-save-tip': 'Docs will be auto saved.',
+        'collaboration': 'Collaboration',
+        'share': 'Share',
+      },
+
       'milkdown': {
         'placeholder': 'Type here...',
         'editor-loading': 'Loading editor...',
@@ -51,10 +59,6 @@ export const resources = {
         'code-block-copied': 'Code copied!',
         'math-block-preview-tab-title': 'Preview',
         'math-block-code-tab-title': 'Code',
-        'editor-tab-name': {
-          'wysiwyg': 'WYSIWYG',
-          'raw-code': 'Markdown Raw',
-        },
       },
     },
   },
@@ -102,6 +106,14 @@ export const resources = {
         },
       },
 
+      'edit-header': {
+        'go-back': '返回',
+        'title-placeholder': '请输入标题',
+        'auto-save-tip': '文档将自动保存。',
+        'collaboration': '协作',
+        'share': '分享',
+      },
+
       'milkdown': {
         'placeholder': '在此输入...',
         'editor-loading': '编辑器加载中...',
@@ -110,10 +122,6 @@ export const resources = {
         'code-block-copied': '代码已复制！',
         'math-block-preview-tab-title': '预览',
         'math-block-code-tab-title': '代码',
-        'editor-tab-name': {
-          'wysiwyg': '即时渲染模式',
-          'raw-code': '原始代码模式',
-        },
       },
     },
   },
