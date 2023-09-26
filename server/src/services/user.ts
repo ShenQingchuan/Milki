@@ -54,6 +54,7 @@ function userSignUpService(app: Elysia) {
           return MilkiClientError(set)(
             ErrCodes.USER_CREATE_ERROR,
             'create-user-err-msg',
+            null, String(err),
           )
         }
 

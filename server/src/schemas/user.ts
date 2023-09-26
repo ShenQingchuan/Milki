@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose'
-import type { InferSchemaType } from 'mongoose'
+import type { Document, InferSchemaType } from 'mongoose'
 
 const userSchema = new Schema({
   name: {
@@ -20,5 +20,5 @@ const userSchema = new Schema({
   timestamps: true,
 })
 
-export type IUserSchema = InferSchemaType<typeof userSchema>
+export type IUserSchema = InferSchemaType<typeof userSchema> & Document
 export const UserModel = model('User', userSchema)

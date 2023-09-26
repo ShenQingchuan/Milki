@@ -9,4 +9,5 @@ export interface MilkiResponse<
   data: T
 
   errMsg?: string
+  errDetail?: string
 }

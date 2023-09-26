@@ -1,5 +1,6 @@
 import clsx from 'clsx'
-import type { FC } from 'react'
+import { type FC, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { HomeHeader } from '../components/home-header'
 import { useTranslator } from '../hooks'
 import type { SideBarItem } from '../utils/types'
@@ -30,6 +31,11 @@ const SideBarItems: FC<{
 
 export const HomePage: FC = () => {
   const t = useTranslator()
+  const navigate = useNavigate()
+
+  const createNewDoc = useCallback(() => {
+    navigate('/edit')
+  }, [])
 
   return (
     <div className='flex flex-col h-full'>
@@ -40,7 +46,10 @@ export const HomePage: FC = () => {
       >
         {/* Side bar */}
         <div className='flex flex-col w-[200px] h-full px-4 pt-8 pb-10'>
-          <button className="btn btn-sm border-none rounded light:bg-primary dark:bg-neutral-700">
+          <button
+            className="btn btn-sm border-none rounded light:bg-primary dark:bg-neutral-700"
+            onClick={createNewDoc}
+          >
             {t('home-page.side-bar.create-button')}
           </button>
           <div className="divider" />

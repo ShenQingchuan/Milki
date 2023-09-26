@@ -17,11 +17,13 @@ export function MilkiError(
   errCode: number,
   errMsg: string,
   data: MilkiResponse['data'] = null,
+  errDetail?: string,
 ): MilkiResponse {
   return {
     status: 'error',
     errCode,
     errMsg,
+    errDetail,
     data,
   }
 }

@@ -52,6 +52,7 @@ export const resources = {
       },
 
       'milkdown': {
+        'loading-monaco': 'Loading ...',
         'placeholder': 'Type here...',
         'editor-loading': 'Loading editor...',
         'code-block-lang-selector': 'Language: ',
@@ -106,15 +107,18 @@ export const resources = {
         },
       },
 
-      'edit-header': {
-        'go-back': '返回',
-        'title-placeholder': '请输入标题',
+      'edit-page': {
         'auto-save-tip': '文档将自动保存。',
-        'collaboration': '协作',
-        'share': '分享',
+        'header': {
+          'go-back': '返回',
+          'title-placeholder': '请输入标题',
+          'collaboration': '协作',
+          'share': '分享',
+        },
       },
 
       'milkdown': {
+        'loading-monaco': '加载中 ...',
         'placeholder': '在此输入...',
         'editor-loading': '编辑器加载中...',
         'code-block-lang-selector': '语言：',

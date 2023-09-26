@@ -1,18 +1,15 @@
 import type { RefObject } from 'react'
 import MonacoEditor from '@monaco-editor/react'
 import type { editor } from 'monaco-editor'
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react'
+import React, { useImperativeHandle, useRef, useState } from 'react'
 import { Milkdown, MilkdownProvider } from '@milkdown/react'
 import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
 import { editorViewCtx, parserCtx } from '@milkdown/core'
 import { Slice } from '@milkdown/prose/model'
-import { decompressFromBase64 as decode } from 'lz-string'
 import type { MilkdownRef } from '../../utils/types'
 import { compose } from '../../providers'
 import { ProseStateProvider } from '../../providers/prose'
-import { useEventCallback, useMilkdownEditor } from '../../hooks'
-
-type InferRefObject<T> = T extends RefObject<infer R> ? R : never
+import { useEventCallback, useMilkdownEditor, useTranslator } from '../../hooks'
 
 const MilkdownSummaryProvider = compose(
   MilkdownProvider,
@@ -63,6 +60,7 @@ function MilkdownSummary({
 }
 
 export const MilkdownRoot: React.FC = () => {
+  const t = useTranslator()
   const milkdownRef = useRef<MilkdownRef>(null)
   const monacoRef = useRef<editor.IStandaloneCodeEditor | null>(null)
 
@@ -72,15 +70,6 @@ export const MilkdownRoot: React.FC = () => {
     editor: editor.IStandaloneCodeEditor,
   ) => {
     monacoRef.current = editor
-  }, [])
-
-  useEffect(() => {
-    const [_, search = ''] = window.location.href.split('?')
-    const searchParams = new URLSearchParams(search)
-    const text = searchParams.get('text')
-    if (text) {
-      setMarkdownContent(decode(text))
-    }
   }, [])
 
   const onMarkdownChange = useEventCallback((markdown: string | undefined) => {
@@ -106,6 +95,12 @@ export const MilkdownRoot: React.FC = () => {
             value={markdownContent}
             onChange={onMarkdownChange}
             onMount={handleMonacoDidMount}
+            loading={(
+              <div className='flex flex-col items-center'>
+                <div className="loading loading-ring loading-lg mb-2" />
+                <div>{t('milkdown.loading-monaco')}</div>
+              </div>
+            )}
           />
         </div>
       </div>
