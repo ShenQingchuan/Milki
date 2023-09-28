@@ -10,6 +10,7 @@ import { useEventCallback, useTranslator } from '../hooks'
 import type { MilkiResponse } from '../../shared/types'
 import { PASSWORD_FORM_FIELD_VALIDATION, USERNAME_FORM_FIELD_VALIDATION } from '../utils/constants'
 import type { SignFormInputs } from '../utils/types'
+import { cutStrLen } from '../utils'
 
 export const SignUpPage: FC = () => {
   const t = useTranslator()
@@ -20,11 +21,7 @@ export const SignUpPage: FC = () => {
   const showErrToast = useEventCallback((errMsg: string) => {
     toast.error(`${
       t('sign-page.sign-up-error-label')
-    } - ${
-      errMsg.length > 24
-        ? `${errMsg.slice(0, 24)}...`
-        : errMsg
-    }`)
+    } - ${cutStrLen(errMsg, 24)}`)
   }, [])
 
   const onSubmitSignUp: SubmitHandler<SignFormInputs> = async (data) => {

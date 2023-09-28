@@ -1,12 +1,16 @@
 import type { FC } from 'react'
+import { Provider } from 'jotai'
 import { EditHeader } from '../components/edit-header'
-import { MilkdownRoot } from '../components/milkdown/root'
+import { milkdownStore } from '../atoms/milkdown'
+import { MilkdownLazy } from '../components/milkdown/lazy-root'
 
 export const EditorPage: FC = () => {
   return (
-    <div className='flex flex-col w-screen h-screen'>
-      <EditHeader />
-      <MilkdownRoot />
-    </div>
+    <Provider store={milkdownStore}>
+      <div className='flex flex-col w-screen h-screen'>
+        <EditHeader />
+        <MilkdownLazy />
+      </div>
+    </Provider>
   )
 }

@@ -4,6 +4,7 @@ import { ErrCodes } from '../../../shared/constants'
 import { DocumentModel } from '../schemas/docs'
 import { MilkiClientError, MilkiSuccess } from '../utils/response'
 import { authenticationMiddleware } from '../middlewares/authentication'
+import type { GetDocDataByIdResponse } from '../../../shared/types/eden'
 
 const createDocSchema = t.Object({
   id: t.Optional(t.String()),
@@ -44,7 +45,9 @@ function docUpsertService(app: Elysia) {
               json,
               markdown,
             })
-            return MilkiSuccess()
+            return MilkiSuccess({
+              type: 'update',
+            })
           }
           catch (err) {
             return MilkiClientError(set)(
@@ -57,13 +60,16 @@ function docUpsertService(app: Elysia) {
 
         // Otherwise, create a new document.
         try {
-          await DocumentModel.create({
+          const newDoc = await DocumentModel.create({
             title: title ?? '',
             json: json ?? '',
             markdown: markdown ?? '',
             owner: user._id,
           })
-          return MilkiSuccess()
+          return MilkiSuccess({
+            type: 'create',
+            id: newDoc._id,
+          })
         }
         catch (err) {
           return MilkiClientError(set)(
@@ -79,11 +85,62 @@ function docUpsertService(app: Elysia) {
     )
 }
 
+function docsGetDataByIdService(app: Elysia) {
+  return app
+    .use(authenticationMiddleware)
+    .get(
+      '/data',
+      async ({ set, query, user }) => {
+        const { id } = query
+
+        if (!user) {
+          return MilkiClientError(set)(
+            ErrCodes.USER_NOT_FOUND,
+            'user-not-found',
+          )
+        }
+
+        try {
+          const foundDoc = await DocumentModel.findOne({ _id: id, owner: user._id })
+          if (!foundDoc) {
+            return MilkiClientError(set)(
+              ErrCodes.DOCUMENT_NOT_FOUND,
+              'doc-not-found',
+            )
+          }
+
+          return MilkiSuccess<GetDocDataByIdResponse>({
+            doc: {
+              id: foundDoc.id,
+              title: foundDoc.title,
+              markdown: foundDoc.markdown,
+              createdAt: foundDoc.createdAt,
+              updatedAt: foundDoc.updatedAt,
+            },
+          })
+        }
+        catch (err) {
+          return MilkiClientError(set)(
+            ErrCodes.DOCUMENT_NOT_FOUND,
+            'doc-not-found',
+            null, String(err),
+          )
+        }
+      },
+      {
+        query: t.Object({
+          id: t.String(),
+        }),
+      },
+    )
+}
+
 export function docServices(app: Elysia) {
   return app
     .group(
       '/docs',
       app => app
+        .use(docsGetDataByIdService)
         .use(docUpsertService),
     )
 }

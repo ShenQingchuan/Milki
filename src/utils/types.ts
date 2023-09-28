@@ -11,3 +11,10 @@ export interface SignFormInputs {
   username: string
   password: string
 }
+
+export interface UseMilkdownEditorOptions {
+  onChange: (md: string) => void
+  onProseStateChange: (state: any) => void
+  onMilkdownFocus: () => void
+  onMilkdownBlur: () => void
+}

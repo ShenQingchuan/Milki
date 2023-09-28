@@ -1,3 +1,4 @@
+import debounce from 'lodash.debounce'
 import { Editor, defaultValueCtx, rootCtx } from '@milkdown/core'
 import { useEditor } from '@milkdown/react'
 import { codeBlockSchema, commonmark, listItemSchema } from '@milkdown/preset-commonmark'
@@ -12,31 +13,29 @@ import { diagram, diagramSchema } from '@milkdown/plugin-diagram'
 import { math, mathBlockSchema } from '@milkdown/plugin-math'
 import { trailing } from '@milkdown/plugin-trailing'
 import { cursor } from '@milkdown/plugin-cursor'
-import debounce from 'lodash.debounce'
-import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 import { gfm as githubPresets } from '@milkdown/preset-gfm'
+import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 import { moriTheme } from '../lib/milkdown-theme'
-import { useProseStateContext } from '../providers/prose'
 import { CodeBlock } from '../components/milkdown/code-block'
 import { ListItem } from '../components/milkdown/list-item'
 import { MathBlock } from '../components/milkdown/math-block'
-import 'katex/dist/katex.min.css'
 import { DiagramBlock } from '../components/milkdown/diagram-block'
-import {
-  TableTooltip,
-  tableSelectorPlugin,
-  tableTooltip,
-  tableTooltipCtx,
-} from '../components/milkdown/table-widget'
+import { TableTooltip, tableSelectorPlugin, tableTooltip, tableTooltipCtx } from '../components/milkdown/table-widget'
+import type { UseMilkdownEditorOptions } from '../utils/types'
+import 'katex/dist/katex.min.css'
 
 export function useMilkdownEditor(
   defaultValue: string,
-  onMarkdownChange: (md: string) => void,
+  {
+    onChange,
+    onProseStateChange,
+    onMilkdownFocus,
+    onMilkdownBlur,
+  }: UseMilkdownEditorOptions,
 ) {
   const nodeViewFactory = useNodeViewFactory()
   const pluginViewFactory = usePluginViewFactory()
   const widgetViewFactory = useWidgetViewFactory()
-  const [, setProseState] = useProseStateContext()
 
   const githubPresetsPlugins: MilkdownPlugin[] = useMemo(() => {
     return [
@@ -91,12 +90,14 @@ export function useMilkdownEditor(
           ctx
             .get(listenerCtx)
             .markdownUpdated((_, md) => {
-              debounce(onMarkdownChange, 100)(md)
+              debounce(onChange, 300)(md)
             })
             .updated((_, doc) => {
               const state = doc.toJSON()
-              debounce(setProseState, 100)(state)
+              debounce(onProseStateChange, 300)(state)
             })
+            .focus(() => onMilkdownFocus())
+            .blur(() => onMilkdownBlur())
         })
         // Tips: Orders matters!
         // - commonmark must be be front-loaded as much as possible
@@ -113,12 +114,12 @@ export function useMilkdownEditor(
         .use($view(codeBlockSchema.node, () => nodeViewFactory({ component: CodeBlock })))
         .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
     },
-    [defaultValue, onMarkdownChange],
+    [defaultValue, onChange],
   )
 
   useEffect(() => {
-    onMarkdownChange(defaultValue)
-  }, [defaultValue, onMarkdownChange])
+    onChange(defaultValue)
+  }, [defaultValue, onChange])
 
   return editorInfo
 }

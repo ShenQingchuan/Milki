@@ -1,36 +1,44 @@
 import type { RefObject } from 'react'
 import MonacoEditor from '@monaco-editor/react'
-import type { editor } from 'monaco-editor'
-import React, { useImperativeHandle, useRef, useState } from 'react'
+import { useImperativeHandle } from 'react'
 import { Milkdown, MilkdownProvider } from '@milkdown/react'
 import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
 import { editorViewCtx, parserCtx } from '@milkdown/core'
 import { Slice } from '@milkdown/prose/model'
-import type { MilkdownRef } from '../../utils/types'
+import type { MilkdownRef, UseMilkdownEditorOptions } from '../../utils/types'
 import { compose } from '../../providers'
-import { ProseStateProvider } from '../../providers/prose'
-import { useEventCallback, useMilkdownEditor, useTranslator } from '../../hooks'
+import { useMilkdownEditor, useMilkdownSetup, useTranslator } from '../../hooks'
 
 const MilkdownSummaryProvider = compose(
   MilkdownProvider,
   ProsemirrorAdapterProvider,
-  ProseStateProvider,
 )
 
 interface MilkdownSummaryProps {
   defaultContent: string
   milkdownRef: RefObject<MilkdownRef>
-  onMarkdownChange: (markdown: string) => void
+  options: UseMilkdownEditorOptions
 }
 
 function MilkdownSummary({
   defaultContent,
   milkdownRef,
-  onMarkdownChange,
+  options,
 }: MilkdownSummaryProps) {
+  const {
+    onChange,
+    onProseStateChange,
+    onMilkdownFocus,
+    onMilkdownBlur,
+  } = options
   const { loading, get } = useMilkdownEditor(
     defaultContent,
-    onMarkdownChange,
+    {
+      onChange,
+      onProseStateChange,
+      onMilkdownFocus,
+      onMilkdownBlur,
+    },
   )
 
   useImperativeHandle(milkdownRef, () => ({
@@ -59,31 +67,32 @@ function MilkdownSummary({
   return <Milkdown />
 }
 
-export const MilkdownRoot: React.FC = () => {
+export function MilkdownRoot() {
   const t = useTranslator()
-  const milkdownRef = useRef<MilkdownRef>(null)
-  const monacoRef = useRef<editor.IStandaloneCodeEditor | null>(null)
-
-  const [markdownContent, setMarkdownContent] = useState('')
-
-  const handleMonacoDidMount = useEventCallback((
-    editor: editor.IStandaloneCodeEditor,
-  ) => {
-    monacoRef.current = editor
-  }, [])
-
-  const onMarkdownChange = useEventCallback((markdown: string | undefined) => {
-    setMarkdownContent(markdown ?? '')
-  }, [])
+  const {
+    milkdownRef,
+    markdownContent,
+    handleMonacoDidMount,
+    onProseStateChange,
+    onMonacoChange,
+    onMilkdownChange,
+    onMilkdownFocus,
+    onMilkdownBlur,
+  } = useMilkdownSetup()
 
   return (
     <MilkdownSummaryProvider>
-      <div className='flex items-center'>
+      <div className='flex items-stretch'>
         <div className='flex-1'>
           <MilkdownSummary
-            defaultContent={''}
+            defaultContent={markdownContent}
             milkdownRef={milkdownRef}
-            onMarkdownChange={onMarkdownChange}
+            options={{
+              onChange: onMilkdownChange,
+              onProseStateChange,
+              onMilkdownFocus,
+              onMilkdownBlur,
+            }}
           />
         </div>
         <div className='flex-1'>
@@ -93,7 +102,7 @@ export const MilkdownRoot: React.FC = () => {
             language="markdown"
             theme="vs-dark"
             value={markdownContent}
-            onChange={onMarkdownChange}
+            onChange={onMonacoChange}
             onMount={handleMonacoDidMount}
             loading={(
               <div className='flex flex-col items-center'>

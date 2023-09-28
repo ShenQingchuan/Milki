@@ -11,6 +11,7 @@ import { useQuery } from '../hooks/use-query'
 import type { SignFormInputs } from '../utils/types'
 import { PASSWORD_FORM_FIELD_VALIDATION, USERNAME_FORM_FIELD_VALIDATION } from '../utils/constants'
 import { useAuthorized } from '../hooks/use-authorized'
+import { cutStrLen } from '../utils'
 
 export const LoginPage: FC = () => {
   const t = useTranslator()
@@ -26,11 +27,7 @@ export const LoginPage: FC = () => {
   const showErrToast = useEventCallback((errMsg: string) => {
     toast.error(`${
       t('sign-page.login-error-label')
-    } - ${
-      errMsg.length > 24
-        ? `${errMsg.slice(0, 24)}...`
-        : errMsg
-    }`)
+    } - ${cutStrLen(errMsg, 24)}`)
   }, [])
 
   const onSubmitLogin: SubmitHandler<SignFormInputs> = async (data) => {

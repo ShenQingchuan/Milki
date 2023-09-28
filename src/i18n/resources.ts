@@ -43,15 +43,20 @@ export const resources = {
         },
       },
 
-      'edit-header': {
-        'go-back': 'Back',
-        'title-placeholder': 'Please input title',
+      'edit-page': {
         'auto-save-tip': 'Docs will be auto saved.',
-        'collaboration': 'Collaboration',
-        'share': 'Share',
+        'header': {
+          'go-back': 'Back',
+          'title-placeholder': 'Please input title',
+          'collaboration': 'Collaboration',
+          'share': 'Share',
+          'update-success': 'Update document success!',
+        },
       },
 
       'milkdown': {
+        'init-fetch-error-toast': 'Failed to fetch doc data! {{ errDetail }}',
+        'update-error-toast': 'Failed to update doc! {{ errDetail }}',
         'loading-monaco': 'Loading ...',
         'placeholder': 'Type here...',
         'editor-loading': 'Loading editor...',
@@ -114,10 +119,13 @@ export const resources = {
           'title-placeholder': '请输入标题',
           'collaboration': '协作',
           'share': '分享',
+          'update-success': '更新文档成功！',
         },
       },
 
       'milkdown': {
+        'init-fetch-error-toast': '获取文档数据失败！{{ errDetail }}',
+        'update-error-toast': '更新文档失败！{{ errDetail }}',
         'loading-monaco': '加载中 ...',
         'placeholder': '在此输入...',
         'editor-loading': '编辑器加载中...',

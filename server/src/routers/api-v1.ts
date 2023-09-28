@@ -1,6 +1,8 @@
 import type { Elysia } from 'elysia'
-import { userServices } from '../services'
-import { docServices } from '../services/docs'
+import {
+  docServices,
+  userServices,
+} from '../services'
 
 export function apiVersion1(app: Elysia) {
   return app

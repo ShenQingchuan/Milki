@@ -1,15 +1,13 @@
 import type { Context } from 'elysia'
 import type { MilkiResponse } from '../../../shared/types'
 
-export function MilkiSuccess(
-  data:
-  | Record<string, any>
-  | Array<any> = {},
+export function MilkiSuccess<T extends (Record<string, any> | Array<any>)>(
+  data?: T,
 ): MilkiResponse {
   return {
     status: 'success',
     errCode: 0,
-    data,
+    data: data ?? {},
   }
 }
 

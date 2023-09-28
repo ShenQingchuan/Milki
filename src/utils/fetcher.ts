@@ -1,5 +1,9 @@
 import http from 'redaxios'
 
+export const $http = http.create({
+  withCredentials: true,
+})
+
 function timeout(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
@@ -18,9 +22,7 @@ export function withTimeMinCost<D = any>(
 }
 
 export function httpGetFetcher<D = any>(url: string) {
-  return http
-    .get<D>(url, {
-      withCredentials: true,
-    })
+  return $http
+    .get<D>(url)
     .then(res => res.data)
 }
