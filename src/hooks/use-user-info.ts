@@ -7,13 +7,13 @@ import type { MilkiResponse } from '../../shared/types'
 import { ErrCodes } from '../../shared/constants'
 import { useAuthorized } from './use-authorized'
 
+type FetchUserInfoResp = MilkiResponse<{ user: IUserSchema }>
+
 export function useUserInfo() {
   const navigate = useNavigate()
   const { setAuthToken } = useAuthorized()
 
-  const { data, error, isLoading } = useSwr<MilkiResponse<{
-    user: IUserSchema
-  }>>(
+  const { data, error, isLoading } = useSwr<FetchUserInfoResp>(
     '/api/v1/user/info',
     withTimeMinCost(800, httpGetFetcher),
     {

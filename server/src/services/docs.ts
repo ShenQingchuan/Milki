@@ -1,10 +1,10 @@
 import type { Elysia } from 'elysia'
 import { t } from 'elysia'
 import { ErrCodes } from '../../../shared/constants'
-import { DocumentModel } from '../schemas/docs'
+import { DocumentModel, RecentAccessedDocModel } from '../schemas/docs'
 import { MilkiClientError, MilkiSuccess } from '../utils/response'
 import { authenticationMiddleware } from '../middlewares/authentication'
-import type { GetDocDataByIdResponse } from '../../../shared/types/eden'
+import type { GetDocDataByIdResponse, GetRecentDocEden, GetRecentDocsResponse } from '../../../shared/types/eden'
 
 const createDocSchema = t.Object({
   id: t.Optional(t.String()),
@@ -45,6 +45,14 @@ function docUpsertService(app: Elysia) {
               json,
               markdown,
             })
+
+            // Record this update as a activity into `RecentAccessedDocModel`
+            await RecentAccessedDocModel.updateOne(
+              { user: user._id, doc: doc._id },
+              { updatedAt: new Date() },
+              { upsert: true },
+            )
+
             return MilkiSuccess({
               type: 'update',
             })
@@ -66,6 +74,14 @@ function docUpsertService(app: Elysia) {
             markdown: markdown ?? '',
             owner: user._id,
           })
+
+          // Record this creation as a activity into `RecentAccessedDocModel`
+          await RecentAccessedDocModel.updateOne(
+            { user: user._id, doc: newDoc._id },
+            { updatedAt: new Date() },
+            { upsert: true },
+          )
+
           return MilkiSuccess({
             type: 'create',
             id: newDoc._id,
@@ -89,7 +105,7 @@ function docsGetDataByIdService(app: Elysia) {
   return app
     .use(authenticationMiddleware)
     .get(
-      '/data',
+      '/data-by-id',
       async ({ set, query, user }) => {
         const { id } = query
 
@@ -109,10 +125,18 @@ function docsGetDataByIdService(app: Elysia) {
             )
           }
 
+          // Record this access as a activity into `RecentAccessedDocModel`
+          await RecentAccessedDocModel.updateOne(
+            { user: user._id, doc: foundDoc._id },
+            { updatedAt: new Date() },
+            { upsert: true },
+          )
+
           return MilkiSuccess<GetDocDataByIdResponse>({
             doc: {
               id: foundDoc.id,
               title: foundDoc.title,
+              json: foundDoc.json,
               markdown: foundDoc.markdown,
               createdAt: foundDoc.createdAt,
               updatedAt: foundDoc.updatedAt,
@@ -135,11 +159,80 @@ function docsGetDataByIdService(app: Elysia) {
     )
 }
 
+function docsGetDataByUserService(app: Elysia) {
+  return app
+    .use(authenticationMiddleware)
+    .get(
+      '/data-by-my-recent',
+      async ({ set, query, user }) => {
+        if (!user) {
+          return MilkiClientError(set)(
+            ErrCodes.USER_NOT_FOUND,
+            'user-not-found',
+          )
+        }
+
+        // Return at most 10 documents at once,
+        // and fetch from DB by page number and sort by `updatedAt` in descending order.
+        const { page = 0 } = query
+
+        // Read from `RecentAccessedDocModel` to get the recent accessed documents
+        // and aggregate them into an array of `DocumentModel` instances.
+        try {
+          const recentAccessedDocs = await RecentAccessedDocModel
+            .find({ user: user._id })
+            .sort({ updatedAt: -1 })
+            .skip(page * 10)
+            .limit(10)
+
+          const docs = await Promise.all(recentAccessedDocs.map(async (recentDoc) => {
+            // Find the document instance and
+            // also query linked its owner `UserModel` instance with user's data
+            const doc = await DocumentModel
+              .findById(recentDoc.doc)
+              .populate<{ owner: { name: string } }>('owner', 'name')
+
+            if (!doc) {
+              return null
+            }
+
+            return {
+              id: doc.id,
+              title: doc.title,
+              json: doc.json,
+              markdown: doc.markdown,
+              createdAt: doc.createdAt,
+              updatedAt: doc.updatedAt,
+              owner: doc.owner,
+            }
+          }))
+
+          return MilkiSuccess<GetRecentDocsResponse>({
+            docs: docs.filter(Boolean) as GetRecentDocEden[],
+          })
+        }
+        catch (err) {
+          return MilkiClientError(set)(
+            ErrCodes.USER_RECENT_DOCUMENTS_QUERY_ERROR,
+            'recent-docs-not-found',
+            null, String(err),
+          )
+        }
+      },
+      {
+        query: t.Object({
+          page: t.Optional(t.Number()),
+        }),
+      },
+    )
+}
+
 export function docServices(app: Elysia) {
   return app
     .group(
       '/docs',
       app => app
+        .use(docsGetDataByUserService)
         .use(docsGetDataByIdService)
         .use(docUpsertService),
     )

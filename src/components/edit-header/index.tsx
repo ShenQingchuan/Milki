@@ -48,7 +48,7 @@ export const EditHeader: FC = () => {
         <button className='btn btn-circle btn-sm btn-ghost'>
           <i className='i-fluent-more-circle-24-regular text-xl' />
         </button>
-      d</div>
+      </div>
     </div>
   )
 }

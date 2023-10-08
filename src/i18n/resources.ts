@@ -41,6 +41,14 @@ export const resources = {
           'label-quick-access': 'Quick access',
           'recycle-bin': 'Recycle bin',
         },
+        'workbench': {
+          'failed-to-fetch-docs': 'Failed to fetch docs! {{ errDetail }}',
+          'header-title': 'My Workbench',
+          'file-name': 'File name',
+          'creator': 'Creator',
+          'last-modified': 'Last modified',
+          'empty-doc-title-placeholder': 'Untitled doc',
+        },
       },
 
       'edit-page': {
@@ -109,6 +117,14 @@ export const resources = {
           'team-spaces': '团队空间',
           'label-quick-access': '快速访问',
           'recycle-bin': '回收站',
+        },
+        'workbench': {
+          'failed-to-fetch-docs': '获取文档列表失败！{{ errDetail }}',
+          'header-title': '我的桌面',
+          'file-name': '文件名',
+          'creator': '创建者',
+          'last-modified': '修改时间',
+          'empty-doc-title-placeholder': '未命名文档',
         },
       },
 

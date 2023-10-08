@@ -2,7 +2,7 @@ import toast from 'react-hot-toast'
 import { useRequest } from 'ahooks'
 import { useAtom } from 'jotai'
 import { useNavigate } from 'react-router-dom'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { IDisposable, editor } from 'monaco-editor'
 import type { Response } from 'redaxios'
 import {
@@ -28,6 +28,8 @@ export function useMilkdownSetup() {
   const navigate = useNavigate()
   const routeQuery = useQuery()
 
+  const [isFirstLoadDone, setFirstLoadDone] = useState(false)
+
   const lockMilkdown = useRef(false)
   const lockMonaco = useRef(false)
   const milkdownRef = useRef<MilkdownRef>(null)
@@ -50,7 +52,7 @@ export function useMilkdownSetup() {
 
       try {
         const initFetchResp = await $http.get<MilkiResponse<GetDocDataByIdResponse>>(
-          `/api/v1/docs/data?id=${routeQuery.id}`,
+          `/api/v1/docs/data-by-id?id=${routeQuery.id}`,
         )
         const { doc } = initFetchResp.data.data
         const { title, id, markdown } = doc
@@ -88,9 +90,15 @@ export function useMilkdownSetup() {
         const { data: upsertRespData } = upsertResp
         if (upsertRespData.data.type === 'create') {
           setDocId(upsertRespData.data.id)
-          navigate(`/edit?id=${upsertRespData.data.id}`)
+          return navigate(`/edit?id=${upsertRespData.data.id}`)
         }
-        flickerMilkiUpdateSuccess()
+
+        if (!isFirstLoadDone) {
+          setFirstLoadDone(true)
+        }
+        else {
+          flickerMilkiUpdateSuccess()
+        }
       }
       catch (err) {
         toast.error(

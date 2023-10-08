@@ -28,3 +28,19 @@ const documentSchema = new Schema({
 
 export type IDocumentSchema = InferSchemaType<typeof documentSchema> & Document
 export const DocumentModel = model('Document', documentSchema)
+
+const recentAccessedDocSchema = new Schema({
+  doc: {
+    type: Schema.Types.ObjectId,
+    ref: 'Document',
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
+}, {
+  timestamps: true,
+})
+
+export type IRecentAccessedDocSchema = InferSchemaType<typeof recentAccessedDocSchema> & Document
+export const RecentAccessedDocModel = model('RecentAccessedDoc', recentAccessedDocSchema)

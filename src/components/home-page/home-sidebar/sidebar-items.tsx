@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import type { FC } from 'react'
-import { useTranslator } from '../../hooks'
-import type { SideBarItem } from '../../utils/types'
+import { useTranslator } from '../../../hooks'
+import type { SideBarItem } from '../../../utils/types'
 
 export const SideBarItems: FC<{
   items: SideBarItem[]

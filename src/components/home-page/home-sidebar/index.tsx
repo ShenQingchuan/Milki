@@ -1,7 +1,7 @@
 import { type FC, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { SIDEBAR_BOTTOM_ITEMS, SIDE_BAR_RELATE_TO_ME_ITEMS, SIDE_BAR_WORKSPACE_ITEMS } from '../../utils/constants'
-import { useTranslator } from '../../hooks'
+import { SIDEBAR_BOTTOM_ITEMS, SIDE_BAR_RELATE_TO_ME_ITEMS, SIDE_BAR_WORKSPACE_ITEMS } from '../../../utils/constants'
+import { useTranslator } from '../../../hooks'
 import { SideBarItems } from './sidebar-items'
 
 export const HomeSideBar: FC = () => {
