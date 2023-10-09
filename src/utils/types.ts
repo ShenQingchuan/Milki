@@ -5,6 +5,7 @@ export interface MilkdownRef {
 export interface SideBarItem {
   icon: string
   label: string
+  route: string
 }
 
 export interface SignFormInputs {

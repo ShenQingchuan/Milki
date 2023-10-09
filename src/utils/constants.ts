@@ -77,16 +77,16 @@ export const PASSWORD_FORM_FIELD_VALIDATION: RegisterOptions = {
 }
 
 export const SIDE_BAR_RELATE_TO_ME_ITEMS: SideBarItem[] = [
-  { icon: 'i-carbon-recently-viewed', label: 'home-page.side-bar.recently-viewed' },
-  { icon: 'i-carbon-share-knowledge', label: 'home-page.side-bar.shared-with-me' },
-  { icon: 'i-ep-collection-tag', label: 'home-page.side-bar.collections' },
+  { icon: 'i-carbon-recently-viewed', label: 'home-page.side-bar.recently-viewed', route: '/' },
+  { icon: 'i-carbon-share-knowledge', label: 'home-page.side-bar.shared-with-me', route: '/shared-with-me' },
+  { icon: 'i-ep-collection-tag', label: 'home-page.side-bar.collections', route: '/collections' },
 ]
 
 export const SIDE_BAR_WORKSPACE_ITEMS: SideBarItem[] = [
-  { icon: 'i-carbon-home', label: 'home-page.side-bar.my-desktop' },
-  { icon: 'i-iconoir-group', label: 'home-page.side-bar.team-spaces' },
+  { icon: 'i-carbon-home', label: 'home-page.side-bar.my-desktop', route: '/my-desktop' },
+  { icon: 'i-iconoir-group', label: 'home-page.side-bar.team-spaces', route: '/team-spaces' },
 ]
 
 export const SIDEBAR_BOTTOM_ITEMS: SideBarItem[] = [
-  { icon: 'i-carbon-trash-can', label: 'home-page.side-bar.recycle-bin' },
+  { icon: 'i-carbon-trash-can', label: 'home-page.side-bar.recycle-bin', route: '/recycle-bin' },
 ]

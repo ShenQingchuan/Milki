@@ -43,11 +43,13 @@ export const resources = {
         },
         'workbench': {
           'failed-to-fetch-docs': 'Failed to fetch docs! {{ errDetail }}',
-          'header-title': 'My Workbench',
           'file-name': 'File name',
           'creator': 'Creator',
           'last-modified': 'Last modified',
           'empty-doc-title-placeholder': 'Untitled doc',
+          'recent-docs': {
+            'header-title': 'Recent documents',
+          },
         },
       },
 
@@ -120,11 +122,13 @@ export const resources = {
         },
         'workbench': {
           'failed-to-fetch-docs': '获取文档列表失败！{{ errDetail }}',
-          'header-title': '我的桌面',
           'file-name': '文件名',
           'creator': '创建者',
           'last-modified': '修改时间',
           'empty-doc-title-placeholder': '未命名文档',
+          'recent-docs': {
+            'header-title': '最近文档',
+          },
         },
       },
 

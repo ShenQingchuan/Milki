@@ -10,6 +10,7 @@ import { SignUpPage } from '../pages/sign-up'
 import { LoginPage } from '../pages/login'
 import { useIsDark } from '../hooks'
 import { EditorPage } from '../pages/editor'
+import { MyRecentDocs } from '../components/home-page/home-workbench/recent-docs'
 
 export function MainLayout() {
   const isDarkMode = useIsDark()
@@ -18,10 +19,16 @@ export function MainLayout() {
     <div className='w-screen h-screen'>
       <BrowserRouter>
         <Routes>
-          <Route path='/' errorElement={<ErrorPage />} element={<AuthGuardedRoute render={<HomePage />} />} />
           <Route path='/login' errorElement={<ErrorPage />} element={<ExcludeAuthGuardedRoute render={<LoginPage />} />} />
           <Route path='/sign-up' errorElement={<ErrorPage />} element={<ExcludeAuthGuardedRoute render={<SignUpPage />} />} />
           <Route path='/edit' errorElement={<ErrorPage />} element={<AuthGuardedRoute render={<EditorPage />} />} />
+          <Route
+            path='/'
+            errorElement={<ErrorPage />}
+            element={<AuthGuardedRoute render={<HomePage />} />}
+          >
+            <Route index element={<MyRecentDocs />} />
+          </Route>
         </Routes>
       </BrowserRouter>
       <Toaster toastOptions={{
