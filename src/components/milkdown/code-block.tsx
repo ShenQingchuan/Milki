@@ -27,7 +27,7 @@ export const CodeBlock: FC = () => {
     <div
       className={clsx(
         selected ? 'ProseMirror-selectednode' : '',
-        'not-prose my-12px p-12px',
+        'not-prose my-6',
         'bg-[#e1e1e19c] dark:bg-[#5959599c]',
         'shadow rounded',
       )}

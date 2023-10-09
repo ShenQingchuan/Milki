@@ -6,7 +6,7 @@ import { history } from '@milkdown/plugin-history'
 import { prism } from '@milkdown/plugin-prism'
 import { $view } from '@milkdown/utils'
 import { useNodeViewFactory, usePluginViewFactory, useWidgetViewFactory } from '@prosemirror-adapter/react'
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { indent } from '@milkdown/plugin-indent'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { diagram, diagramSchema } from '@milkdown/plugin-diagram'
@@ -83,8 +83,8 @@ export function useMilkdownEditor(
         .enableInspector()
         // Tips: Orders matters!
         // - commonmark must be be front-loaded as much as possible
-        .use(githubPresetsPlugins)
         .use(commonmark)
+        .use(githubPresetsPlugins)
         .use(listener)
         .use(indent)
         .use(history)
@@ -116,10 +116,6 @@ export function useMilkdownEditor(
     },
     [defaultValue, onChange],
   )
-
-  useEffect(() => {
-    onChange(defaultValue)
-  }, [defaultValue, onChange])
 
   return editorInfo
 }

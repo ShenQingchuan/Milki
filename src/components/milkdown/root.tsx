@@ -110,6 +110,9 @@ export function MilkdownRoot() {
                 <div>{t('milkdown.loading-monaco')}</div>
               </div>
             )}
+            options={{
+              padding: { top: 18 },
+            }}
           />
         </div>
       </div>

@@ -60,17 +60,21 @@ export const TableTooltip: FC = () => {
   const tooltipProvider = useRef<TooltipProvider>()
   const [loading, getEditor] = useInstance()
 
-  const isRow
-    = view.state.selection instanceof CellSelection
+  const isRow = (
+    view.state.selection instanceof CellSelection
     && view.state.selection.isRowSelection()
-  const isCol
-    = view.state.selection instanceof CellSelection
+  )
+  const isCol = (
+    view.state.selection instanceof CellSelection
     && view.state.selection.isColSelection()
+  )
   const isWholeTable = isRow && isCol
-  const isHeading
-    = isRow
-    && view.state.doc.nodeAt((view.state.selection as CellSelection).$headCell.pos)
+  const isHeading = (
+    isRow
+    && view.state.doc
+      .nodeAt((view.state.selection as CellSelection).$headCell.pos)
       ?.type.name === 'table_header'
+  )
 
   useEffect(() => {
     if (
@@ -103,7 +107,7 @@ export const TableTooltip: FC = () => {
     return () => {
       tooltipProvider.current?.destroy()
     }
-  }, [getEditor, loading, view])
+  }, [getEditor, loading])
 
   return (
     <div className="hidden">
