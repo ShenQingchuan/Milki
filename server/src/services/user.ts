@@ -12,7 +12,7 @@ import {
   SIGN_UP_USERNAME_PATTERN,
 } from '../../../shared/constants'
 import { cookiePlugin, jwtPlugin } from '../configs/common-plugins'
-import { authenticationMiddleware } from '../middlewares/authentication'
+import { authenticationBeforeHandler, authenticationMiddleware } from '../middlewares/authentication'
 
 const signReqBodySchema = t.Object({
   username: t.String({
@@ -108,20 +108,15 @@ function userLoginService(app: Elysia) {
 function userInfoService(app: Elysia) {
   return app
     .use(authenticationMiddleware)
-    .get('/info', async ({ set, user }) => {
-      if (!user) {
-        return MilkiClientError(set)(
-          ErrCodes.NOT_AUTHENTICATED,
-          'not-authenticated',
-        )
-      }
-
+    .get('/info', async ({ user }) => {
       return MilkiSuccess({
         user: {
-          name: user.name,
-          avatarUrl: user.avatarUrl,
+          name: user!.name,
+          avatarUrl: user!.avatarUrl,
         },
       })
+    }, {
+      beforeHandle: [authenticationBeforeHandler],
     })
 }
 

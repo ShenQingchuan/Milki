@@ -81,6 +81,20 @@ export function useMilkdownEditor(
     (root) => {
       return Editor.make()
         .enableInspector()
+        // Tips: Orders matters!
+        // - commonmark must be be front-loaded as much as possible
+        .use(githubPresetsPlugins)
+        .use(commonmark)
+        .use(listener)
+        .use(indent)
+        .use(history)
+        .use(cursor)
+        .use(trailing)
+        .use(prism)
+        .use(mathPlugins)
+        .use(diagramPlugins)
+        .use($view(codeBlockSchema.node, () => nodeViewFactory({ component: CodeBlock })))
+        .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
         .config(moriTheme)
         .config((ctx) => {
           ctx.set(rootCtx, root)
@@ -99,20 +113,6 @@ export function useMilkdownEditor(
             .focus(() => onMilkdownFocus())
             .blur(() => onMilkdownBlur())
         })
-        // Tips: Orders matters!
-        // - commonmark must be be front-loaded as much as possible
-        .use(commonmark)
-        .use(githubPresetsPlugins)
-        .use(listener)
-        .use(indent)
-        .use(history)
-        .use(cursor)
-        .use(trailing)
-        .use(prism)
-        .use(mathPlugins)
-        .use(diagramPlugins)
-        .use($view(codeBlockSchema.node, () => nodeViewFactory({ component: CodeBlock })))
-        .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
     },
     [defaultValue, onChange],
   )

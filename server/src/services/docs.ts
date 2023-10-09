@@ -3,7 +3,7 @@ import { t } from 'elysia'
 import { ErrCodes } from '../../../shared/constants'
 import { DocumentModel, RecentAccessedDocModel } from '../schemas/docs'
 import { MilkiClientError, MilkiSuccess } from '../utils/response'
-import { authenticationMiddleware } from '../middlewares/authentication'
+import { authenticationBeforeHandler, authenticationMiddleware } from '../middlewares/authentication'
 import type { GetDocDataByIdResponse, GetRecentDocEden, GetRecentDocsResponse } from '../../../shared/types/eden'
 
 const createDocSchema = t.Object({
@@ -20,13 +20,6 @@ function docUpsertService(app: Elysia) {
       '/upsert',
       async ({ set, body, user }) => {
         const { id, title, json, markdown } = body
-
-        if (!user) {
-          return MilkiClientError(set)(
-            ErrCodes.USER_NOT_FOUND,
-            'user-not-found',
-          )
-        }
 
         // If `id` exists, and can find a corresponding document, update it
         if (id) {
@@ -48,7 +41,7 @@ function docUpsertService(app: Elysia) {
 
             // Record this update as a activity into `RecentAccessedDocModel`
             await RecentAccessedDocModel.updateOne(
-              { user: user._id, doc: doc._id },
+              { user: user!._id, doc: doc._id },
               { updatedAt: new Date() },
               { upsert: true },
             )
@@ -72,12 +65,12 @@ function docUpsertService(app: Elysia) {
             title: title ?? '',
             json: json ?? '',
             markdown: markdown ?? '',
-            owner: user._id,
+            owner: user!._id,
           })
 
           // Record this creation as a activity into `RecentAccessedDocModel`
           await RecentAccessedDocModel.updateOne(
-            { user: user._id, doc: newDoc._id },
+            { user: user!._id, doc: newDoc._id },
             { updatedAt: new Date() },
             { upsert: true },
           )
@@ -97,6 +90,7 @@ function docUpsertService(app: Elysia) {
       },
       {
         body: createDocSchema,
+        beforeHandle: [authenticationBeforeHandler],
       },
     )
 }
@@ -109,15 +103,8 @@ function docsGetDataByIdService(app: Elysia) {
       async ({ set, query, user }) => {
         const { id } = query
 
-        if (!user) {
-          return MilkiClientError(set)(
-            ErrCodes.USER_NOT_FOUND,
-            'user-not-found',
-          )
-        }
-
         try {
-          const foundDoc = await DocumentModel.findOne({ _id: id, owner: user._id })
+          const foundDoc = await DocumentModel.findOne({ _id: id, owner: user!._id })
           if (!foundDoc) {
             return MilkiClientError(set)(
               ErrCodes.DOCUMENT_NOT_FOUND,
@@ -127,7 +114,7 @@ function docsGetDataByIdService(app: Elysia) {
 
           // Record this access as a activity into `RecentAccessedDocModel`
           await RecentAccessedDocModel.updateOne(
-            { user: user._id, doc: foundDoc._id },
+            { user: user!._id, doc: foundDoc._id },
             { updatedAt: new Date() },
             { upsert: true },
           )
@@ -155,6 +142,7 @@ function docsGetDataByIdService(app: Elysia) {
         query: t.Object({
           id: t.String(),
         }),
+        beforeHandle: [authenticationBeforeHandler],
       },
     )
 }
@@ -165,13 +153,6 @@ function docsGetDataByUserService(app: Elysia) {
     .get(
       '/data-by-my-recent',
       async ({ set, query, user }) => {
-        if (!user) {
-          return MilkiClientError(set)(
-            ErrCodes.USER_NOT_FOUND,
-            'user-not-found',
-          )
-        }
-
         // Return at most 10 documents at once,
         // and fetch from DB by page number and sort by `updatedAt` in descending order.
         const { page = 0 } = query
@@ -180,7 +161,7 @@ function docsGetDataByUserService(app: Elysia) {
         // and aggregate them into an array of `DocumentModel` instances.
         try {
           const recentAccessedDocs = await RecentAccessedDocModel
-            .find({ user: user._id })
+            .find({ user: user!._id })
             .sort({ updatedAt: -1 })
             .skip(page * 10)
             .limit(10)
@@ -223,6 +204,7 @@ function docsGetDataByUserService(app: Elysia) {
         query: t.Object({
           page: t.Optional(t.Number()),
         }),
+        beforeHandle: [authenticationBeforeHandler],
       },
     )
 }

@@ -1,14 +1,18 @@
-import type { Context, Elysia } from 'elysia'
+import type { Context, Elysia, HookHandler } from 'elysia'
 import type { IUserSchema } from '../schemas'
 import { UserModel } from '../schemas'
 import { cookiePlugin, jwtPlugin } from '../configs/common-plugins'
+import { ErrCodes } from '../../../shared/constants'
+import { MilkiClientError } from '../utils/response'
 
 export interface AuthenticationMiddlewareResult {
   user: IUserSchema | null
 }
 
-export function makeAuthenticationResult(set: Context['set'],
-  user: IUserSchema | null = null): AuthenticationMiddlewareResult {
+export function makeAuthenticationResult(
+  set: Context['set'],
+  user: IUserSchema | null = null,
+): AuthenticationMiddlewareResult {
   if (!user) {
     set.status = 401
   }
@@ -38,3 +42,14 @@ export function authenticationMiddleware(app: Elysia) {
       return makeAuthenticationResult(set, user)
     })
 }
+
+export const authenticationBeforeHandler = (({ set, user }: Context & {
+  user: IUserSchema | null
+}) => {
+  if (!user) {
+    return MilkiClientError(set, 401)(
+      ErrCodes.NOT_AUTHENTICATED,
+      'user-not-found',
+    )
+  }
+}) as HookHandler<any, any>

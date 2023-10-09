@@ -1,6 +1,7 @@
 import useSwr from 'swr'
 import { useNavigate } from 'react-router-dom'
 import type { Response } from 'redaxios'
+import { useCallback } from 'react'
 import { httpGetFetcher, withTimeMinCost } from '../utils/fetcher'
 import type { IUserSchema } from '../../server/src/schemas'
 import type { MilkiResponse } from '../../shared/types'
@@ -13,19 +14,20 @@ export function useUserInfo() {
   const navigate = useNavigate()
   const { setAuthToken } = useAuthorized()
 
+  const onFetchUserInfoErrCallback = useCallback((err: any) => {
+    const { errCode } = (err as Response<MilkiResponse>).data
+    if (errCode === ErrCodes.NOT_AUTHENTICATED) {
+      setAuthToken()
+      // return navigate('/login?action=redirect')
+    }
+  }, [navigate, setAuthToken])
+
   const { data, error, isLoading } = useSwr<FetchUserInfoResp>(
     '/api/v1/user/info',
     withTimeMinCost(800, httpGetFetcher),
     {
-      onErrorRetry: (err, _key, _config, revalidate, { retryCount }) => {
-        const { errCode } = (err as Response<MilkiResponse>).data
-        if (errCode === ErrCodes.NOT_AUTHENTICATED) {
-          setAuthToken(undefined)
-          return navigate('/login?action=redirect')
-        }
-
-        setTimeout(() => revalidate({ retryCount }), 5000)
-      },
+      shouldRetryOnError: false,
+      onError: onFetchUserInfoErrCallback,
     },
   )
 

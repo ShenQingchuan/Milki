@@ -1,4 +1,4 @@
-import type { FC } from 'react'
+import { type FC, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMyRecentDocsRequest } from '../../../hooks/home-page/use-user-docs-request'
 import { useTranslator } from '../../../hooks'
@@ -8,9 +8,9 @@ export const Workbench: FC = () => {
   const navigate = useNavigate()
   const { myRecentDocs, isLoading } = useMyRecentDocsRequest()
 
-  const navigateToDoc = (docId: string) => {
+  const navigateToDoc = useCallback((docId: string) => {
     return () => navigate(`/edit?id=${docId}`)
-  }
+  }, [navigate])
 
   if (isLoading) {
     return (

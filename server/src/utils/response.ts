@@ -27,10 +27,15 @@ export function MilkiError(
 }
 
 export function MilkiClientError(
-  set: Context['set'],
-  status = 400,
+  setOrCallback: Context['set'] | (() => void),
+  statusCode = 400,
 ) {
-  set.status = status
+  if (typeof setOrCallback === 'function') {
+    setOrCallback()
+  }
+  else {
+    setOrCallback.status = statusCode
+  }
   return (
     ...args: Parameters<typeof MilkiError>
   ) => MilkiError(...args)

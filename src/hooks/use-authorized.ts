@@ -1,4 +1,5 @@
 import { useLocalStorageState } from 'ahooks'
+import { useMemo } from 'react'
 
 export function useAuthorized() {
   const [authToken, setAuthToken] = useLocalStorageState<string | undefined>(
@@ -6,7 +7,7 @@ export function useAuthorized() {
     { defaultValue: undefined },
   )
 
-  const isAuthorized = !!authToken
+  const isAuthorized = useMemo(() => !!authToken, [authToken])
   return {
     isAuthorized,
     authToken,
