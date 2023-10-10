@@ -14,7 +14,7 @@ export const DocListTable: FC<DocListTableProps> = (props) => {
   const navigate = useNavigate()
 
   const navigateToDoc = useCallback((docId: string) => {
-    return () => navigate(`/edit?id=${docId}`)
+    return () => navigate(`/doc?id=${docId}`)
   }, [navigate])
 
   return (

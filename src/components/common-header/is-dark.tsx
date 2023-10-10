@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import { useIsDark, useThemeActions } from '../../../hooks'
+import { useIsDark, useThemeActions } from '../../hooks'
 
 export const DarkModeIcon: FC = () => {
   const isDarkMode = useIsDark()

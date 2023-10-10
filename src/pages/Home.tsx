@@ -1,6 +1,6 @@
 import { type FC } from 'react'
 import { Outlet } from 'react-router-dom'
-import { HomeHeader } from '../components/home-page/home-header'
+import { HomeHeader } from '../components/common-header'
 import { HomeSideBar } from '../components/home-page/home-sidebar'
 
 export const HomePage: FC = () => {

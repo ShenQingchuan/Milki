@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 import { Navigate } from 'react-router-dom'
-import { useUserInfo } from '../../../hooks/use-user-info'
+import { useUserInfo } from '../../hooks/use-user-info'
 
 interface MilkiAvatarProps {
   // ...
