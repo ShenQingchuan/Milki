@@ -1,5 +1,4 @@
-import debounce from 'lodash.debounce'
-import { Editor, defaultValueCtx, rootCtx } from '@milkdown/core'
+import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
 import { useEditor } from '@milkdown/react'
 import { codeBlockSchema, commonmark, listItemSchema } from '@milkdown/preset-commonmark'
 import { history } from '@milkdown/plugin-history'
@@ -7,6 +6,7 @@ import { prism } from '@milkdown/plugin-prism'
 import { $view } from '@milkdown/utils'
 import { useNodeViewFactory, usePluginViewFactory, useWidgetViewFactory } from '@prosemirror-adapter/react'
 import { useMemo } from 'react'
+import debounce from 'lodash.debounce'
 import { indent } from '@milkdown/plugin-indent'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { diagram, diagramSchema } from '@milkdown/plugin-diagram'
@@ -28,6 +28,7 @@ import { linkPlugin } from '../components/milkdown/link-widget'
 export function useMilkdownEditor(
   defaultValue: string,
   {
+    isEditable,
     onChange,
     onProseStateChange,
     onMilkdownFocus,
@@ -99,21 +100,37 @@ export function useMilkdownEditor(
         .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
         .config(moriTheme)
         .config((ctx) => {
+          ctx.update(
+            editorViewOptionsCtx,
+            prev => ({
+              ...prev,
+              editable: () => isEditable,
+            }),
+          )
+        })
+        .config((ctx) => {
           ctx.set(rootCtx, root)
           ctx.set(defaultValueCtx, defaultValue)
         })
         .config((ctx) => {
-          ctx
-            .get(listenerCtx)
-            .markdownUpdated((_, md) => {
-              debounce(onChange, 300)(md)
-            })
-            .updated((_, doc) => {
-              const state = doc.toJSON()
-              debounce(onProseStateChange, 300)(state)
-            })
-            .focus(() => onMilkdownFocus())
-            .blur(() => onMilkdownBlur())
+          if (
+            onChange
+            && onProseStateChange
+            && onMilkdownFocus
+            && onMilkdownBlur
+          ) {
+            ctx
+              .get(listenerCtx)
+              .markdownUpdated((_, md) => {
+                debounce(onChange, 300)(md)
+              })
+              .updated((_, doc) => {
+                const state = doc.toJSON()
+                debounce(onProseStateChange, 300)(state)
+              })
+              .focus(() => onMilkdownFocus())
+              .blur(() => onMilkdownBlur())
+          }
         })
     },
     [defaultValue, onChange],

@@ -14,8 +14,9 @@ export interface SignFormInputs {
 }
 
 export interface UseMilkdownEditorOptions {
-  onChange: (md: string) => void
-  onProseStateChange: (state: any) => void
-  onMilkdownFocus: () => void
-  onMilkdownBlur: () => void
+  isEditable: boolean
+  onChange?: (md: string) => void
+  onProseStateChange?: (state: any) => void
+  onMilkdownFocus?: () => void
+  onMilkdownBlur?: () => void
 }

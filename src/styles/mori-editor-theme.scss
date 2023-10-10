@@ -57,6 +57,14 @@
     }
   }
 
+  :where(blockquote):not(:where([class~=not-prose] *)) {
+    border-left-width: 4px;
+    border-left-color: var(--milki-blockquote-blockquote-border-color);
+    padding-left: 1rem;
+    margin-top: 1.2em;
+    margin-bottom: 1.2em;
+  }
+
   // Code block
   pre {
     margin: 0 0 12px;
@@ -96,13 +104,6 @@
     }
   }
 
-  :where(blockquote):not(:where([class~=not-prose] *)) {
-    border-left-width: 4px;
-    border-left-color: var(--milki-blockquote-blockquote-border-color);
-    padding-left: 1rem;
-    margin-top: 1.2em;
-    margin-bottom: 1.2em;
-  }
 }
 
 .dark .milkdown-theme-mori {
@@ -128,4 +129,9 @@
       background-color: #77777799;
     }
   }
+}
+
+[data-milki-editable="false"] [data-milkdown-root="true"] {
+  width: 66%;
+  margin: 2rem auto;
 }

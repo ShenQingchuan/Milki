@@ -1,3 +1,4 @@
+import type { FC } from 'react'
 import { Suspense, lazy } from 'react'
 import { useTranslator } from '../../hooks'
 
@@ -24,7 +25,7 @@ function MilkdownLoading() {
   )
 }
 
-export function MilkdownLazy() {
+export const MilkdownLazy: FC = () => {
   return (
     <Suspense fallback={<MilkdownLoading />}>
       <MilkdownRoot />

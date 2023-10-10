@@ -1,12 +1,12 @@
 import { type FC } from 'react'
 import { Outlet } from 'react-router-dom'
-import { HomeHeader } from '../components/common-header'
+import { CommonHeader } from '../components/common-header'
 import { HomeSideBar } from '../components/home-page/home-sidebar'
 
 export const HomePage: FC = () => {
   return (
     <div className='flex flex-col h-full'>
-      <HomeHeader />
+      <CommonHeader />
 
       <div className='flex items-center flex-1'>
         <HomeSideBar />

@@ -3,7 +3,7 @@ import { HeaderNotification } from './header-notification'
 import { MilkiAvatar } from './avatar'
 import { DarkModeIcon } from './is-dark'
 
-export const HomeHeader: FC = () => {
+export const CommonHeader: FC = () => {
   return (
     <div className='
       flex items-center

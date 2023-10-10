@@ -11,6 +11,7 @@ import { LoginPage } from '../pages/login'
 import { useIsDark } from '../hooks'
 import { EditorPage } from '../pages/editor'
 import { MyRecentDocs } from '../components/home-page/home-workbench/recent-docs'
+import { DocView } from '../pages/doc-view'
 
 export function MainLayout() {
   const isDarkMode = useIsDark()
@@ -29,6 +30,11 @@ export function MainLayout() {
           >
             <Route index element={<MyRecentDocs />} />
           </Route>
+          <Route
+            path='/doc'
+            errorElement={<ErrorPage />}
+            element={<AuthGuardedRoute render={<DocView />} />}
+          />
         </Routes>
       </BrowserRouter>
       <Toaster toastOptions={{

@@ -1,18 +1,12 @@
-import type { RefObject } from 'react'
+import type { FC, RefObject } from 'react'
 import MonacoEditor from '@monaco-editor/react'
 import { useImperativeHandle } from 'react'
-import { Milkdown, MilkdownProvider } from '@milkdown/react'
-import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
+import { Milkdown } from '@milkdown/react'
 import { editorViewCtx, parserCtx } from '@milkdown/core'
 import { Slice } from '@milkdown/prose/model'
 import type { MilkdownRef, UseMilkdownEditorOptions } from '../../utils/types'
-import { compose } from '../../providers'
 import { useIsDark, useMilkdownEditor, useMilkdownSetup, useTranslator } from '../../hooks'
-
-const MilkdownSummaryProvider = compose(
-  MilkdownProvider,
-  ProsemirrorAdapterProvider,
-)
+import { MilkdownSummaryProvider } from './provider'
 
 interface MilkdownSummaryProps {
   defaultContent: string
@@ -20,25 +14,14 @@ interface MilkdownSummaryProps {
   options: UseMilkdownEditorOptions
 }
 
-function MilkdownSummary({
+export function MilkdownSummary({
   defaultContent,
   milkdownRef,
   options,
 }: MilkdownSummaryProps) {
-  const {
-    onChange,
-    onProseStateChange,
-    onMilkdownFocus,
-    onMilkdownBlur,
-  } = options
   const { loading, get } = useMilkdownEditor(
     defaultContent,
-    {
-      onChange,
-      onProseStateChange,
-      onMilkdownFocus,
-      onMilkdownBlur,
-    },
+    options,
   )
 
   useImperativeHandle(milkdownRef, () => ({
@@ -67,7 +50,7 @@ function MilkdownSummary({
   return <Milkdown />
 }
 
-export function MilkdownRoot() {
+export const MilkdownRoot: FC = () => {
   const isDark = useIsDark()
   const t = useTranslator()
   const {
@@ -89,6 +72,7 @@ export function MilkdownRoot() {
             defaultContent={markdownContent}
             milkdownRef={milkdownRef}
             options={{
+              isEditable: true,
               onChange: onMilkdownChange,
               onProseStateChange,
               onMilkdownFocus,
