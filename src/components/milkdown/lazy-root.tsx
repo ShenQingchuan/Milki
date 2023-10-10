@@ -14,7 +14,8 @@ function MilkdownLoading() {
     <div
       className='
         fixed top-0 left-0 self-stretch
-        flex justify-center items-center
+        w-screen h-screen
+        flex flex-1 justify-center items-center
         bg-gray-800/40 text-gray-100
       '
     >

@@ -61,9 +61,6 @@ export const EditHeader: FC = () => {
   )
 
   const onTitleBlur = useCallback(() => {
-    if (title === docData.title) {
-      return
-    }
     sendUpdateTitleRequest()
   }, [title, docData])
 

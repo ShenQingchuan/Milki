@@ -23,6 +23,7 @@ import { DiagramBlock } from '../components/milkdown/diagram-block'
 import { TableTooltip, tableSelectorPlugin, tableTooltip, tableTooltipCtx } from '../components/milkdown/table-widget'
 import type { UseMilkdownEditorOptions } from '../utils/types'
 import 'katex/dist/katex.min.css'
+import { linkPlugin } from '../components/milkdown/link-widget'
 
 export function useMilkdownEditor(
   defaultValue: string,
@@ -93,6 +94,7 @@ export function useMilkdownEditor(
         .use(prism)
         .use(mathPlugins)
         .use(diagramPlugins)
+        .use(linkPlugin(widgetViewFactory))
         .use($view(codeBlockSchema.node, () => nodeViewFactory({ component: CodeBlock })))
         .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
         .config(moriTheme)

@@ -7,7 +7,7 @@ import { editorViewCtx, parserCtx } from '@milkdown/core'
 import { Slice } from '@milkdown/prose/model'
 import type { MilkdownRef, UseMilkdownEditorOptions } from '../../utils/types'
 import { compose } from '../../providers'
-import { useMilkdownEditor, useMilkdownSetup, useTranslator } from '../../hooks'
+import { useIsDark, useMilkdownEditor, useMilkdownSetup, useTranslator } from '../../hooks'
 
 const MilkdownSummaryProvider = compose(
   MilkdownProvider,
@@ -68,6 +68,7 @@ function MilkdownSummary({
 }
 
 export function MilkdownRoot() {
+  const isDark = useIsDark()
   const t = useTranslator()
   const {
     milkdownRef,
@@ -100,7 +101,11 @@ export function MilkdownRoot() {
             className='w-full h-[calc(100vh-64px)]'
             height="100%"
             language="markdown"
-            theme="vs-dark"
+            theme={
+              isDark
+                ? 'vs-dark'
+                : 'light'
+            }
             value={markdownContent}
             onChange={onMonacoChange}
             onMount={handleMonacoDidMount}
