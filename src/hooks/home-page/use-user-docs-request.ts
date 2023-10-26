@@ -16,10 +16,12 @@ export function useMyRecentDocsRequest() {
   useEffect(() => {
     if (error) {
       const errToastKey = 'home-page.workbench.failed-to-fetch-docs'
-      toast.error(t(errToastKey, {
-        id: errToastKey,
-        errDetail: error.message,
-      }))
+      toast.error(
+        t(errToastKey, {
+          id: errToastKey,
+          errDetail: error.message,
+        }),
+      )
     }
   }, [error])
 

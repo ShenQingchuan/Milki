@@ -18,7 +18,7 @@ export const DocView: FC = () => {
         <CommonHeader />
 
         <div
-          className='flex items-center flex-1 w-full'
+          className='flex items-center flex-1 w-[80vw] mx-auto'
           data-milki-editable='false'
         >
           <MilkdownSummaryProvider>

@@ -11,7 +11,7 @@ import { useQuery } from '../hooks/use-query'
 import type { SignFormInputs } from '../utils/types'
 import { PASSWORD_FORM_FIELD_VALIDATION, USERNAME_FORM_FIELD_VALIDATION } from '../utils/constants'
 import { useAuthorized } from '../hooks/use-authorized'
-import { cutStrLen } from '../utils'
+import { cutStrLen, nextTick } from '../utils'
 
 export const LoginPage: FC = () => {
   const t = useTranslator()
@@ -43,6 +43,8 @@ export const LoginPage: FC = () => {
       )
       toast.success(t('sign-page.login-success'))
       setAuthToken(resp.data.data.token)
+
+      await nextTick()
       navigate('/')
     }
     catch (err) {
