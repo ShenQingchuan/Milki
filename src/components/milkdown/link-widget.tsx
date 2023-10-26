@@ -6,7 +6,8 @@ import { useInstance } from '@milkdown/react'
 import { $prose } from '@milkdown/utils'
 import type { useWidgetViewFactory } from '@prosemirror-adapter/react'
 import { useWidgetViewContext } from '@prosemirror-adapter/react'
-import { type FC, useCallback } from 'react'
+import { useCallback } from 'react'
+import type { FC, KeyboardEvent } from 'react'
 
 export const LinkWidgetBefore: FC = () => {
   return <span><wbr/></span>
@@ -19,6 +20,14 @@ export const LinkWidgetAfter: FC = () => {
 
   const onNavigateToLink = useCallback(() => {
     window.open(href, '_blank')
+  }, [])
+
+  const onKeydownForInput = useCallback((e: KeyboardEvent) => {
+    // Intercept Enter keydown event to
+    // prevent editor from inserting a new line
+    if (e.key === 'Enter') {
+      e.preventDefault()
+    }
   }, [])
 
   return (
@@ -48,6 +57,7 @@ export const LinkWidgetAfter: FC = () => {
             })
           })
         }}
+        onKeyDown={onKeydownForInput}
         type="text"
         defaultValue={href}
       />

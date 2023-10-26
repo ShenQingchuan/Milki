@@ -57,6 +57,7 @@ export const resources = {
         'auto-save-tip': 'Docs will be auto saved.',
         'header': {
           'go-back': 'Back',
+          'go-edit': 'Edit',
           'title-placeholder': 'Please input title',
           'collaboration': 'Collaboration',
           'share': 'Share',
@@ -136,6 +137,7 @@ export const resources = {
         'auto-save-tip': '文档将自动保存。',
         'header': {
           'go-back': '返回',
+          'go-edit': '编辑',
           'title-placeholder': '请输入标题',
           'collaboration': '协作',
           'share': '分享',
