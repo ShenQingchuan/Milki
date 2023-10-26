@@ -1,6 +1,6 @@
 import toast from 'react-hot-toast'
 import { useRequest } from 'ahooks'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useNavigate } from 'react-router-dom'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { IDisposable, editor } from 'monaco-editor'
@@ -37,11 +37,11 @@ export function useMilkdownSetup() {
   const monacoDisposables = useRef<IDisposable[]>([])
 
   const [markdownContent, setMarkdownContent] = useAtom(milkiMarkdown)
-  const [docData] = useAtom(milkiDocData)
-  const [, setDocId] = useAtom(milkiDocId)
-  const [, setTitle] = useAtom(milkiTitle)
-  const [, setStateJson] = useAtom(milkiStateJSON)
-  const [, setUpdateLoading] = useAtom(milkiUpdateLoading)
+  const docData = useAtomValue(milkiDocData)
+  const setDocId = useSetAtom(milkiDocId)
+  const setTitle = useSetAtom(milkiTitle)
+  const setStateJson = useSetAtom(milkiStateJSON)
+  const setUpdateLoading = useSetAtom(milkiUpdateLoading)
 
   // Initially fetch document content
   const { loading: isInitFetchDocLoading } = useRequest(

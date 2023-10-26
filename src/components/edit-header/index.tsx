@@ -1,6 +1,6 @@
 import { type FC, useCallback, useEffect } from 'react'
 import clsx from 'clsx'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useNavigate } from 'react-router-dom'
 import { useRequest } from 'ahooks'
 import toast from 'react-hot-toast'
@@ -15,11 +15,11 @@ export const EditHeader: FC = () => {
   const t = useTranslator()
   const navigate = useNavigate()
 
-  const [docData] = useAtom(milkiDocData)
-  const [showUpdateSuccess] = useAtom(milkiShowUpdateSuccess)
   const [title, setTitle] = useAtom(milkiTitle)
-  const [, setDocId] = useAtom(milkiDocId)
-  const [, setUpdateLoading] = useAtom(milkiUpdateLoading)
+  const docData = useAtomValue(milkiDocData)
+  const showUpdateSuccess = useAtomValue(milkiShowUpdateSuccess)
+  const setDocId = useSetAtom(milkiDocId)
+  const setUpdateLoading = useSetAtom(milkiUpdateLoading)
 
   const goBackHome = useCallback(() => {
     navigate('/')
