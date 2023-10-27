@@ -53,7 +53,7 @@ export function useMilkdownEditor(
       },
       tableSelectorPlugin(widgetViewFactory),
     ].flat()
-  }, [])
+  }, [pluginViewFactory, widgetViewFactory])
 
   const mathPlugins: MilkdownPlugin[] = useMemo(() => {
     return [

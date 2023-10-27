@@ -107,7 +107,7 @@ export const TableTooltip: FC = () => {
     return () => {
       tooltipProvider.current?.destroy()
     }
-  }, [getEditor, loading])
+  }, [getEditor, loading, view])
 
   return (
     <div className="hidden">

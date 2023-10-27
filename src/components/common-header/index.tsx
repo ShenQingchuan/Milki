@@ -1,9 +1,9 @@
-import type { FC } from 'react'
+import type { FC, PropsWithChildren } from 'react'
 import { HeaderNotification } from './header-notification'
 import { MilkiAvatar } from './avatar'
 import { DarkModeIcon } from './is-dark'
 
-export const CommonHeader: FC = () => {
+export const CommonHeader: FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className='
       flex items-center
@@ -17,6 +17,10 @@ export const CommonHeader: FC = () => {
       </a>
 
       <div className='ml-auto flex items-center'>
+        <div className='flex items-center mr-2'>
+          {children}
+        </div>
+
         <DarkModeIcon />
         <HeaderNotification />
         <MilkiAvatar />

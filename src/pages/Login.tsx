@@ -67,7 +67,7 @@ export const LoginPage: FC = () => {
         { id: 'login-redirect-tip', icon: '🤔' },
       )
     }
-  }, [])
+  }, [routeQuery.action, t])
 
   return (
     <div className='

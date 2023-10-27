@@ -40,7 +40,7 @@ export const DiagramBlock: FC = () => {
     catch (err) {
       console.error('[Milkdown] render error:', err)
     }
-  }, [])
+  }, [id, isDarkMode])
 
   return (<CustomRenderBlock customRender={mermaidRender} />)
 }

@@ -11,7 +11,7 @@ export const SideBarItems: FC<{
   const navigate = useNavigate()
   const createNavigate = useCallback((route: string) => {
     return () => navigate(route)
-  }, [])
+  }, [navigate])
 
   return (
     <>

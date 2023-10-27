@@ -11,10 +11,10 @@ export const CodeBlock: FC = () => {
   const t = useTranslator()
 
   const onSelectLang = useCallback((lang: string) => {
-    return useEventCallback(() => {
+    return () => {
       setAttrs({ language: lang })
-    }, [])
-  }, [])
+    }
+  }, [setAttrs])
 
   const copySuccessMsg = useMemo(() => t('milkdown.code-block-copied'), [t])
   const copyContent = useEventCallback<MouseEventHandler>((e) => {

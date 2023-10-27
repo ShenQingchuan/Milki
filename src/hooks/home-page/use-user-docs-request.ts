@@ -4,13 +4,17 @@ import toast from 'react-hot-toast'
 import { httpGetFetcher, withTimeMinCost } from '../../utils/fetcher'
 import type { GetRecentDocsResponse, MilkiResponse } from '../../../shared/types'
 import { useTranslator } from '..'
+import { useUserInfo } from '../use-user-info'
 
 type FetchUserDocsResp = MilkiResponse<GetRecentDocsResponse>
 
 export function useMyRecentDocsRequest() {
   const t = useTranslator()
+  const { user } = useUserInfo()
   const { data, error, isLoading } = useSwr<FetchUserDocsResp>(
-    '/api/v1/docs/data-by-my-recent',
+    () => user?.id
+      ? '/api/v1/docs/data-by-my-recent'
+      : null,
     withTimeMinCost(800, httpGetFetcher),
   )
   useEffect(() => {
@@ -23,7 +27,7 @@ export function useMyRecentDocsRequest() {
         }),
       )
     }
-  }, [error])
+  }, [error, t])
 
   return {
     myRecentDocs: data?.data.docs ?? [],

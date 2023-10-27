@@ -8,7 +8,7 @@ import type { MilkiResponse } from '../../shared/types'
 import { ErrCodes } from '../../shared/constants'
 import { useAuthorized } from './use-authorized'
 
-type FetchUserInfoResp = MilkiResponse<{ user: IUserSchema }>
+type FetchUserInfoResp = MilkiResponse<{ user: IUserSchema & { id: string } }>
 
 export function useUserInfo() {
   const navigate = useNavigate()
@@ -18,7 +18,7 @@ export function useUserInfo() {
     const { errCode } = (err as Response<MilkiResponse>).data
     if (errCode === ErrCodes.NOT_AUTHENTICATED) {
       setAuthToken()
-      // return navigate('/login?action=redirect')
+      return navigate('/login?action=redirect')
     }
   }, [navigate, setAuthToken])
 

@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { FC, PropsWithChildren, RefObject } from 'react'
 import { useNodeViewContext } from '@prosemirror-adapter/react'
 import { useInstance } from '@milkdown/react'
@@ -32,8 +32,8 @@ export const CustomRenderBlock: FC<PropsWithChildren<CustomRenderBlockProps>> = 
     setAttrs({ value: editPanelRef.current?.value || '' })
   }, [])
 
-  const onSelectTab = (tabName: string) => {
-    return useEventCallback(() => {
+  const onSelectTab = useCallback((tabName: string) => {
+    return () => {
       if (
         activeTab === codeTab
         && tabName === previewTab
@@ -42,8 +42,8 @@ export const CustomRenderBlock: FC<PropsWithChildren<CustomRenderBlockProps>> = 
       }
 
       setActiveTab(tabName)
-    }, [activeTab])
-  }
+    }
+  }, [activeTab, codeTab, handleUpdate, previewTab])
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -60,7 +60,7 @@ export const CustomRenderBlock: FC<PropsWithChildren<CustomRenderBlockProps>> = 
         getEditor,
       )
     })
-  }, [code, activeTab, loading, getEditor])
+  }, [code, activeTab, loading, previewTab, customRender, getEditor])
 
   return (
     <div

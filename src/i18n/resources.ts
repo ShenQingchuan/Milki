@@ -57,12 +57,15 @@ export const resources = {
         'auto-save-tip': 'Docs will be auto saved.',
         'header': {
           'go-back': 'Back',
-          'go-edit': 'Edit',
           'title-placeholder': 'Please input title',
           'collaboration': 'Collaboration',
           'share': 'Share',
           'update-success': 'Update document success!',
         },
+      },
+
+      'doc-view-page': {
+        'go-edit': 'Go to edit',
       },
 
       'milkdown': {
@@ -137,12 +140,15 @@ export const resources = {
         'auto-save-tip': '文档将自动保存。',
         'header': {
           'go-back': '返回',
-          'go-edit': '编辑',
           'title-placeholder': '请输入标题',
           'collaboration': '协作',
           'share': '分享',
           'update-success': '更新文档成功！',
         },
+      },
+
+      'doc-view-page': {
+        'go-edit': '前往编辑',
       },
 
       'milkdown': {

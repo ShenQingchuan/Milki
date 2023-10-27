@@ -130,7 +130,7 @@ export function useMilkdownSetup() {
 
   const onProseStateChange = useCallback((state: any) => {
     setStateJson(JSON.stringify(state))
-  }, [])
+  }, [setStateJson])
 
   const onMonacoChange = useCallback((newMarkdown: string | undefined) => {
     if (lockMilkdown.current || !milkdownRef.current || newMarkdown == null) {
@@ -138,7 +138,7 @@ export function useMilkdownSetup() {
     }
     milkdownRef.current.update(newMarkdown)
     sendUpdateDocRequest()
-  }, [])
+  }, [sendUpdateDocRequest])
 
   const onMilkdownChange = useCallback((newMarkdown: string | undefined) => {
     if (lockMonaco.current || !monacoRef.current || newMarkdown == null) {
@@ -146,7 +146,7 @@ export function useMilkdownSetup() {
     }
     monacoRef.current.setValue(newMarkdown)
     sendUpdateDocRequest()
-  }, [])
+  }, [sendUpdateDocRequest])
 
   const onMilkdownFocus = useCallback(() => {
     lockMilkdown.current = true
@@ -165,11 +165,11 @@ export function useMilkdownSetup() {
       monacoDisposables.current.forEach(d => d.dispose())
       monacoDisposables.current = []
     }
-  }, [])
+  }, [routeQuery.id, setDocId])
 
   useEffect(() => {
     setUpdateLoading(isUpdateLoading)
-  }, [isUpdateLoading])
+  }, [isUpdateLoading, setUpdateLoading])
 
   return {
     milkdownRef,

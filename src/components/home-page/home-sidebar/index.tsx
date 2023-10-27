@@ -10,7 +10,7 @@ export const HomeSideBar: FC = () => {
 
   const createNewDoc = useCallback(() => {
     navigate('/edit')
-  }, [])
+  }, [navigate])
 
   return (
     <div className='flex flex-col w-[200px] h-full px-4 pt-8 pb-10'>

@@ -67,7 +67,7 @@ export const MilkdownRoot: FC = () => {
   return (
     <MilkdownSummaryProvider>
       <div className='flex items-stretch'>
-        <div className='flex-1'>
+        <div className='flex-1 max-w-[50vw]'>
           <MilkdownSummary
             defaultContent={markdownContent}
             milkdownRef={milkdownRef}
@@ -80,7 +80,7 @@ export const MilkdownRoot: FC = () => {
             }}
           />
         </div>
-        <div className='flex-1'>
+        <div className='flex-1 max-w-[50vw]'>
           <MonacoEditor
             className='w-full h-[calc(100vh-64px)]'
             height="100%"

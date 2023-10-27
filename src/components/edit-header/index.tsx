@@ -23,13 +23,13 @@ export const EditHeader: FC = () => {
 
   const goBackHome = useCallback(() => {
     navigate('/')
-  }, [])
+  }, [navigate])
 
   const onTitleChange = useCallback((
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setTitle(e.target.value)
-  }, [])
+  }, [setTitle])
 
   const { loading: isUpdateLoading, run: sendUpdateTitleRequest } = useRequest(
     async () => {
@@ -62,11 +62,11 @@ export const EditHeader: FC = () => {
 
   const onTitleBlur = useCallback(() => {
     sendUpdateTitleRequest()
-  }, [title, docData])
+  }, [sendUpdateTitleRequest])
 
   useEffect(() => {
     setUpdateLoading(isUpdateLoading)
-  }, [isUpdateLoading])
+  }, [isUpdateLoading, setUpdateLoading])
 
   return (
     <div className='flex items-center p-4 shadow'>

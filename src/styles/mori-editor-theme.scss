@@ -8,7 +8,7 @@
 
 .milkdown-theme-mori {
   width: 100%;
-  height: calc(100vh - 64px);
+  min-height: calc(100vh - 120px);
   background-color: #f5f5f5;
   padding: 18px 32px;
   overflow: auto;
@@ -20,6 +20,7 @@
   :where(h5):not(:where([class~=not-prose] *)),
   :where(h6):not(:where([class~=not-prose] *)) {
     margin-bottom: 0.5rem;
+    font-weight: 500;
   }
 
   :where(h1):not(:where([class~=not-prose] *)) { font-size: 2em; }

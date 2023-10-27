@@ -111,6 +111,7 @@ function userInfoService(app: Elysia) {
     .get('/info', async ({ user }) => {
       return MilkiSuccess({
         user: {
+          id: user!._id.toString(),
           name: user!.name,
           avatarUrl: user!.avatarUrl,
         },

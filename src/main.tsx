@@ -13,7 +13,7 @@ function App() {
 
   useEffect(() => {
     document.title = `${import.meta.env.VITE_APP_NAME} - ${t('site-slogan')}`
-  }, [])
+  }, [t])
 
   return (
     <MainLayout />

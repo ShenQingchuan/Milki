@@ -3,7 +3,8 @@ module.exports = {
   env: { browser: true, es2020: true },
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   extends: [
-    '@antfu'
+    '@antfu',
+    'plugin:react-hooks/recommended',
   ],
   rules: {
     'no-console': 'off',

@@ -1,6 +1,6 @@
-import { commandsCtx } from '@milkdown/core'
+import { commandsCtx, editorViewCtx } from '@milkdown/core'
 import { updateLinkCommand } from '@milkdown/preset-commonmark'
-import { Plugin } from '@milkdown/prose/state'
+import { Plugin, TextSelection } from '@milkdown/prose/state'
 import { DecorationSet } from '@milkdown/prose/view'
 import { useInstance } from '@milkdown/react'
 import { $prose } from '@milkdown/utils'
@@ -15,20 +15,31 @@ export const LinkWidgetBefore: FC = () => {
 
 export const LinkWidgetAfter: FC = () => {
   const { spec } = useWidgetViewContext()
-  const [loading, editor] = useInstance()
+  const [loading, getEditorInstance] = useInstance()
   const href = spec?.href ?? ''
 
   const onNavigateToLink = useCallback(() => {
     window.open(href, '_blank')
-  }, [])
+  }, [href])
 
   const onKeydownForInput = useCallback((e: KeyboardEvent) => {
     // Intercept Enter keydown event to
     // prevent editor from inserting a new line
     if (e.key === 'Enter') {
       e.preventDefault()
+      e.stopPropagation()
+      getEditorInstance()?.action((ctx) => {
+        const view = ctx.get(editorViewCtx)
+        const { state } = view
+        const { selection } = state
+        const { $to } = selection
+        const cursorPos = $to.end()
+        const $sel = TextSelection.near(state.doc.resolve(cursorPos))
+        view.dispatch(state.tr.setSelection($sel))
+        view.focus()
+      })
     }
-  }, [])
+  }, [getEditorInstance])
 
   return (
     <>
@@ -50,7 +61,7 @@ export const LinkWidgetAfter: FC = () => {
         onBlur={(e) => {
           if (loading)
             return
-          editor().action((ctx) => {
+          getEditorInstance().action((ctx) => {
             const commands = ctx.get(commandsCtx)
             commands.call(updateLinkCommand.key, {
               href: e.target.value,
