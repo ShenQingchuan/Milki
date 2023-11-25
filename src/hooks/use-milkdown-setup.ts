@@ -126,7 +126,7 @@ export function useMilkdownSetup() {
       lockMonaco.current = false
     })
     monacoDisposables.current.push(focusDispose, blurDispose)
-  }, [markdownContent])
+  }, [])
 
   const onProseStateChange = useCallback((state: any) => {
     setStateJson(JSON.stringify(state))
@@ -154,6 +154,10 @@ export function useMilkdownSetup() {
 
   const onMilkdownBlur = useCallback(() => {
     lockMilkdown.current = false
+  }, [])
+
+  useEffect(() => {
+    lockMilkdown.current = true
   }, [])
 
   useEffect(() => {

@@ -82,7 +82,7 @@ export const MilkdownRoot: FC = () => {
         </div>
         <div className='flex-1 max-w-[50vw]'>
           <MonacoEditor
-            className='w-full h-[calc(100vh-64px)]'
+            className="w-full h-[calc(100vh-64px)]"
             height="100%"
             language="markdown"
             theme={

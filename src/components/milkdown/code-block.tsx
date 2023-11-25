@@ -1,14 +1,18 @@
-import { useCallback, useMemo } from 'react'
-import type { FC, MouseEventHandler } from 'react'
+import { memo, useCallback, useMemo } from 'react'
+import type { MouseEventHandler } from 'react'
 import clsx from 'clsx'
 import { useNodeViewContext } from '@prosemirror-adapter/react'
 import { toast } from 'react-hot-toast'
 import { useEventCallback, useTranslator } from '../../hooks'
 import { MARKDOWN_CODE_BLOCK_LANGS } from '../../utils/constants'
 
-export const CodeBlock: FC = () => {
-  const { contentRef, selected, node, setAttrs } = useNodeViewContext()
+export const CodeBlock = memo(() => {
+  const { view, contentRef, selected, node, setAttrs } = useNodeViewContext()
   const t = useTranslator()
+
+  const isSelectLangDisabled = useMemo(() => {
+    return !view.editable
+  }, [view.editable])
 
   const onSelectLang = useCallback((lang: string) => {
     return () => {
@@ -37,11 +41,11 @@ export const CodeBlock: FC = () => {
         suppressContentEditableWarning
         className='mb-1 pt-2 px-4 flex justify-between items-center'
       >
-        <div className="dropdown">
-          <label tabIndex={0} className="btn btn-sm m-1">
+        <button className={isSelectLangDisabled ? 'cursor-disabled' : 'dropdown'}>
+          <label tabIndex={0} className={clsx('m-1 btn btn-sm', isSelectLangDisabled && 'cursor-not-allowed')}>
             {t('milkdown.code-block-lang-selector')} {node.attrs.language}
           </label>
-          <ul tabIndex={0} className="
+          {!isSelectLangDisabled && <ul tabIndex={0} className="
             dropdown-content z-[1]
             menu menu-sm flex flex-col flex-nowrap
             p-2 shadow bg-base-100 rounded-box
@@ -54,8 +58,8 @@ export const CodeBlock: FC = () => {
                 </li>
               ))
             }
-          </ul>
-        </div>
+          </ul>}
+        </button>
 
         <button className="btn btn-sm" onClick={copyContent}>
           {t('milkdown.code-block-copy')}
@@ -70,4 +74,4 @@ export const CodeBlock: FC = () => {
       </pre>
     </div>
   )
-}
+})
